@@ -10,7 +10,7 @@
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
     "format:fix": "npx prettier --write .",
-    "prepare": "cd .. && husky graphiql-app/.husky"
+    "prepare": "husky"
   },
   "dependencies": {
     "@remix-run/node": "^2.11.2",
