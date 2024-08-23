@@ -1,1 +1,2 @@
+cd graphiql-app
 npx prettier . --check && npm run lint
