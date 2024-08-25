@@ -64,11 +64,9 @@ const Register: React.FC = () => {
       await sendEmailVerification(user);
       console.log("Success");
 
-      // Clear the input fields
       setEmail("");
       setPassword("");
 
-      // Optionally refresh the page
       window.location.reload();
     } catch (error) {
       if (error instanceof Error) {
