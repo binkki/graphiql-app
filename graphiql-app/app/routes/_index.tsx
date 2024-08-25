@@ -14,6 +14,8 @@ export default function Index() {
       <h1>Welcome!</h1>
       <Link to={"/signin"}>Sign In</Link>
       <Link to={"/signup"}>Sign Up</Link>
+      <Link to={"/restful"}>Restful Client</Link>
+      <Link to={"/graphiql"}>Graphiql Client</Link>
     </>
   );
 }
