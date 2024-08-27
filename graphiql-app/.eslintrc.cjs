@@ -48,6 +48,9 @@ module.exports = {
           typescript: {},
         },
       },
+      rules: {
+        "react-hooks/exhaustive-deps": "off",
+      },
     },
 
     // Typescript
