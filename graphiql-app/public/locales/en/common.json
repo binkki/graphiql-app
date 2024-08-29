@@ -1,4 +1,6 @@
 {
   "title": "remix-i18n is awesome",
-  "greeting": "Welcome"
+  "greeting": "Welcome",
+  "signin": "Sign In",
+  "signup": "Sign Up"
 }
