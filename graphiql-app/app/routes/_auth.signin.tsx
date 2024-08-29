@@ -2,6 +2,7 @@ import { Link } from "@remix-run/react";
 import { FieldValues, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchema } from "../utils/userSchema";
+import { useTranslation } from "react-i18next";
 
 export default function Signin() {
   const {
@@ -9,13 +10,14 @@ export default function Signin() {
     handleSubmit,
     formState: { errors, isDirty, isValid },
   } = useForm({ resolver: yupResolver(userSchema), mode: "onChange" });
+  const { t } = useTranslation();
 
   const onSubmit = async (data: FieldValues) => {
     console.log(data);
   };
   return (
     <>
-      <h2 className="text-center text-3xl m-2">Sign In</h2>
+      <h2 className="text-center text-3xl m-2">{t("signin")}</h2>
       <p className="text-center text-xl m-2">
         Do not have an account yet?
         <Link className="text-blue-800 ml-2" to={"/signin"}>

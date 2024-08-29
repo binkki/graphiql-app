@@ -11,10 +11,18 @@ import "./tailwind.css";
 import { useChangeLanguage } from "remix-i18next/react";
 import { useTranslation } from "react-i18next";
 import i18next from "./i18n.server";
+import { i18nCookie } from "./cookie";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const locale = await i18next.getLocale(request);
-  return json({ locale });
+  const t = await i18next.getFixedT(request, "common");
+  const title = t("title");
+  return json(
+    { locale, title },
+    {
+      headers: { "Set-Cookie": await i18nCookie.serialize(locale) },
+    },
+  );
 }
 
 export const handle = {
