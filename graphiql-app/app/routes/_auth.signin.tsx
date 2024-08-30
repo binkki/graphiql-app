@@ -55,9 +55,9 @@ const SignIn: React.FC = () => {
       const userCred = await signInWithEmailAndPassword(auth, email, password);
       const user = userCred.user;
       await sendEmailVerification(user);
-      setEmail("");
-      setPassword("");
-      console.log("Success");
+      setEmail(" ");
+      setPassword(" ");
+      // console.log("Success");
       navigate("/"); // Redirect to the main page
     } catch (error) {
       if (error instanceof Error) {
