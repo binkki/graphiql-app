@@ -13,8 +13,5 @@ export default new RemixI18Next({
   i18next: {
     backend: { loadPath: resolve("./public/locales/{{lng}}/{{ns}}.json") },
   },
-  // The backend you want to use to load the translations
-  // Tip: You could pass `resources` to the `i18next` configuration and avoid
-  // a backend here
   backend: Backend,
 });
