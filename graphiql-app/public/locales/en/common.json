@@ -2,5 +2,11 @@
   "title": "remix-i18n is awesome",
   "greeting": "Welcome",
   "signin": "Sign In",
-  "signup": "Sign Up"
+  "signup": "Sign Up",
+  "noaccount": "Do not have an account yet?",
+  "haveAccount": "Already have an account?",
+  "signinAction": "Sign In!",
+  "signupAction": "Sign Up!",
+  "password": "Password",
+  "submit": "Submit"
 }

@@ -2,5 +2,11 @@
   "title": "remix-i18n прекрасен",
   "greeting": "Добро пожаловать",
   "signin": "Авторизация",
-  "signup": "Регистрация"
+  "signup": "Регистрация",
+  "noaccount": "Еще нет аккаунта?",
+  "haveAccount": "Уже есть аккаунт?",
+  "signinAction": "Авторизуйтесь!",
+  "signupAction": "Зарегистрируйтесь!",
+  "password": "Пароль",
+  "submit": "Войти"
 }
