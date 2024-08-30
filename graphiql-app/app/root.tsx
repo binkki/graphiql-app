@@ -8,6 +8,7 @@ import {
 import "./tailwind.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import AuthCheck from "./components/AuthCheck/AuthCheck";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,9 +20,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="h-screen">
-        <Header />
-        {children}
-        <Footer />
+        <AuthCheck>
+          <Header />
+          {children}
+          <Footer />
+        </AuthCheck>
         <ScrollRestoration />
         <Scripts />
       </body>
