@@ -1,4 +1,6 @@
 import CodeEditor from "~/components/CodeEditor";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const templateResponse = {
   response: {
@@ -9,6 +11,7 @@ const templateResponse = {
 export default function Graphiql() {
   return (
     <>
+      <Header />
       <CodeEditor
         language="graphql"
         value="query { }"
@@ -21,6 +24,7 @@ export default function Graphiql() {
         value={JSON.stringify(templateResponse)}
         id="graphiql-response-editor"
       />
+      <Footer />
     </>
   );
 }

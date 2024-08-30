@@ -6,6 +6,7 @@ import {
 import React, { useEffect, useState } from "react";
 import InputField from "../components/Input/Input";
 import { auth } from "../firebase";
+import { useTranslation } from "react-i18next";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -17,6 +18,7 @@ const Register: React.FC = () => {
     error: string;
     emailVerified: boolean;
   } | null>(null);
+  const { t } = useTranslation();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -97,11 +99,11 @@ const Register: React.FC = () => {
 
   return (
     <>
-      <h2 className="text-center text-3xl m-2">Sign Up</h2>
+      <h2 className="text-center text-3xl m-2">{t("signup")}</h2>
       <p className="text-center text-xl m-2">
-        Already have an account?
+        {t("haveAccount")}
         <Link className="text-blue-800 ml-2" to={"/signin"}>
-          Sign In!
+          {t("signinAction")}
         </Link>
       </p>
       <Form
@@ -131,10 +133,10 @@ const Register: React.FC = () => {
         >
           <div className="flex justify-between m-2 w-80">
             <label className="text-2xl" htmlFor="password">
-              Password
+              {t("password")}
             </label>
             <InputField
-              placeholder={"Password"}
+              placeholder={t("password")}
               handleChange={handlePasswordChange}
               type={"password"}
             />
@@ -148,7 +150,7 @@ const Register: React.FC = () => {
           type="button"
           onClick={signUpAction}
         >
-          Sign Up
+          {t("signup")}
         </button>
       </Form>
       {user && (
