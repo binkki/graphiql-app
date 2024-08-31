@@ -1,4 +1,3 @@
-// AuthCheck.tsx
 import { useNavigate } from "@remix-run/react";
 import { onAuthStateChanged } from "firebase/auth";
 import { ReactNode, useEffect, useState } from "react";
@@ -16,8 +15,13 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate("/dashboard");
+        const hasRedirected = localStorage.getItem("hasRedirected");
+        if (!hasRedirected) {
+          localStorage.setItem("hasRedirected", "auth");
+          navigate("/dashboard");
+        }
       } else {
+        localStorage.removeItem("hasRedirected");
         navigate("/");
       }
       setLoading(false);

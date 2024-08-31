@@ -1,7 +1,8 @@
-import { type MetaFunction } from "@remix-run/node";
+import { type MetaFunction, json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import UserSingOut from "~/components/UserSingOut/UserSingOut";
 import { auth } from "~/firebase";
 
@@ -12,7 +13,17 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export const loader = async () => {
+  return json({
+    lngs: {
+      en: { nativeName: "English" },
+      ru: { nativeName: "Русский" },
+    },
+  });
+};
+
 export default function Index() {
+  const { t, ready } = useTranslation();
   const [authUser, setAuthUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -26,24 +37,45 @@ export default function Index() {
     return () => listen();
   }, []);
 
+  if (!ready) return <div>Loading...</div>;
   return (
     <>
       {authUser ? (
         <>
-          <h2>Welcome back, {authUser.email}!</h2>
+          <h1>
+            {t("greeting")}, {authUser.email}!
+          </h1>
           <div>
-            <Link to={"/restful"}>Restful Client</Link>
-            <Link to={"/graphiql"}>Graphiql Client</Link>
+            <div>
+              <Link to={"/restful"}>Restful Client</Link>
+            </div>
+            <div>
+              <Link to={"/graphiql"}>Graphiql Client</Link>
+            </div>
           </div>
           <UserSingOut />
         </>
       ) : (
         <>
-          <h1>Welcome!</h1>
-          <p>
-            Please <Link to={"/signin"}>Sign In</Link>
-            or <Link to={"/signup"}>Sign Up</Link>
-          </p>
+          <h1 className="text-center text-2xl my-5">{t("greeting")}</h1>
+          <div className="flex flex-col items-center">
+            <h2>{t("please_follow_the_links")}</h2>
+            <div>
+              <Link
+                className="text-red-500 hover:text-red-700 transition-colors duration-300"
+                to={"/signin"}
+              >
+                {t("signin")}{" "}
+              </Link>
+              {t("or")}{" "}
+              <Link
+                className="text-red-500 hover:text-red-700 transition-colors duration-300"
+                to={"/signup"}
+              >
+                {t("signup")}
+              </Link>
+            </div>
+          </div>
         </>
       )}
     </>

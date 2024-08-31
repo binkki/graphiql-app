@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { validateEmail } from "~/components/DataHandling/DataHandling";
 import InputField from "../components/Input/Input";
 import { auth } from "../firebase";
+import { useTranslation } from "react-i18next";
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -20,6 +21,7 @@ const SignIn: React.FC = () => {
   } | null>(null);
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const validatePassword = (password: string) => {
     const unicodeRegex = /[\p{L}\p{N}\p{P}\p{S}]/u;
@@ -91,12 +93,12 @@ const SignIn: React.FC = () => {
 
   return (
     <>
-      <h2 className="text-center text-3xl m-2">Sign In</h2>
+      <h2 className="text-center text-3xl m-2">{t("signin")}</h2>
       <p className="text-center text-xl m-2">
-        Do not have an account yet?
+        {t("noaccount")}
         <Link className="text-blue-800 ml-2" to={"/signUp"}>
           {" "}
-          Sign Up!
+          {t("signup")}!
         </Link>
       </p>
       <Form className="flex flex-col items-center" action="/signup">
@@ -145,7 +147,7 @@ const SignIn: React.FC = () => {
           type="button"
           onClick={signInAction}
         >
-          Sign In
+          {t("submit")}
         </button>
       </Form>
       {user && (

@@ -1,7 +1,9 @@
 import { signOut } from "firebase/auth";
+import { useTranslation } from "react-i18next";
 import { auth } from "~/firebase";
 
 const UserSingOut = () => {
+  const { t } = useTranslation();
   function userSingOut() {
     signOut(auth)
       .then(() => console.log("sign out"))
@@ -14,7 +16,7 @@ const UserSingOut = () => {
         type="button"
         onClick={userSingOut}
       >
-        Sihg Out
+        {t("signout")}
       </button>
     </div>
   );

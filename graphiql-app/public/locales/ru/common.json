@@ -1,0 +1,16 @@
+{
+  "title": "remix-i18n прекрасен",
+  "greeting": "Добро пожаловать",
+  "signin": "Авторизация",
+  "signup": "Регистрация",
+  "noaccount": "Еще нет аккаунта?",
+  "haveAccount": "Уже есть аккаунт?",
+  "signinAction": "Авторизуйтесь!",
+  "signupAction": "Зарегистрируйтесь!",
+  "password": "Пароль",
+  "submit": "Войти",
+  "signout": "Выйти",
+  "your_profile": "Ваш профиль",
+  "please_follow_the_links": "Пожалуйста перейдите по ссылкам",
+  "or": "или"
+}

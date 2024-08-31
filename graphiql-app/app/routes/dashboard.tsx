@@ -1,18 +1,13 @@
-import { signOut } from "firebase/auth";
-import { auth } from "~/firebase";
+import { useTranslation } from "react-i18next";
+import UserSingOut from "~/components/UserSingOut/UserSingOut";
 
 export default function Dashboard() {
-  function userSingOut() {
-    signOut(auth)
-      .then(() => console.log("sign out"))
-      .catch((error) => console.error("Error signing out:", error));
-  }
+  const { t } = useTranslation();
+
   return (
     <>
-      <div>Page for authorized users</div>
-      <button type="button" onClick={userSingOut}>
-        Sihg Out
-      </button>
+      <h2>{t("your_profile")}</h2>
+      <UserSingOut />
     </>
   );
 }

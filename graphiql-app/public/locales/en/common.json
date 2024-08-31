@@ -1,0 +1,16 @@
+{
+  "title": "remix-i18n is awesome",
+  "greeting": "Welcome",
+  "signin": "Sign In",
+  "signup": "Sign Up",
+  "noaccount": "Do not have an account yet?",
+  "haveAccount": "Already have an account?",
+  "signinAction": "Sign In!",
+  "signupAction": "Sign Up!",
+  "password": "Password",
+  "submit": "Submit",
+  "signout": "Sign out",
+  "your_profile": "Your profile",
+  "please_follow_the_links": "Please follow the links",
+  "or": "or"
+}
