@@ -8,5 +8,10 @@
   "signinAction": "Sign In!",
   "signupAction": "Sign Up!",
   "password": "Password",
-  "submit": "Submit"
+  "submit": "Submit",
+  "signout": "Sign out",
+  "your_profile": "Your profile",
+  "please_follow_the_links": "Please follow the links",
+  "or": "or",
+  "home_page": "Home page"
 }

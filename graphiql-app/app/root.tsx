@@ -8,6 +8,9 @@ import {
 } from "@remix-run/react";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import "./tailwind.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import AuthCheck from "./components/AuthCheck/AuthCheck";
 import { useChangeLanguage } from "remix-i18next/react";
 import { useTranslation } from "react-i18next";
 import i18next from "./i18n.server";
@@ -45,7 +48,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="h-screen">
-        {children}
+        <AuthCheck>
+          <Header />
+          {children}
+          <Footer />
+        </AuthCheck>
         <ScrollRestoration />
         <Scripts />
       </body>

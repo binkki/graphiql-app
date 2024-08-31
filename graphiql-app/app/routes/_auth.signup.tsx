@@ -8,7 +8,7 @@ import InputField from "../components/Input/Input";
 import { auth } from "../firebase";
 import { useTranslation } from "react-i18next";
 
-const Register: React.FC = () => {
+const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -122,6 +122,8 @@ const Register: React.FC = () => {
               placeholder={"E-mail Address"}
               handleChange={handleEmailChange}
               type={"email"}
+              autoComplete={"email"}
+              id={"email"}
             />
           </div>
           {emailError && (
@@ -139,6 +141,8 @@ const Register: React.FC = () => {
               placeholder={t("password")}
               handleChange={handlePasswordChange}
               type={"password"}
+              autoComplete={"new-password"}
+              id={"password"}
             />
           </div>
           {passwordError && (
@@ -165,4 +169,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default SignUp;
