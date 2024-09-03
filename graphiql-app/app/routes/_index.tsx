@@ -13,15 +13,6 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-// export const loader = async () => {
-//   return json({
-//     lngs: {
-//       en: { nativeName: "English" },
-//       ru: { nativeName: "Русский" },
-//     },
-//   });
-// };
-
 export default function Index() {
   const { t, ready } = useTranslation();
   const [authUser, setAuthUser] = useState<User | null>(null);
