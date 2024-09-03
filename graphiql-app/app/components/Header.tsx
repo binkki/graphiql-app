@@ -1,6 +1,8 @@
 import { Link, useLocation } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 import i18nextOptions from "../i18nextOptions";
+// import { onAuthStateChanged, User } from "firebase/auth";
+// import { auth } from "~/firebase";
 
 export const handle = {
   i18n: ["common"],

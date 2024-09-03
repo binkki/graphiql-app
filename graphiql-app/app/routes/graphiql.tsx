@@ -1,5 +1,4 @@
 import CodeEditor from "~/components/CodeEditor";
-import Header from "../components/Header";
 
 const templateResponse = {
   response: {
@@ -10,7 +9,6 @@ const templateResponse = {
 export default function Graphiql() {
   return (
     <>
-      <Header />
       <CodeEditor
         language="graphql"
         value="query { }"
