@@ -1,4 +1,4 @@
-import { type MetaFunction, json } from "@remix-run/node";
+import { type MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
@@ -11,15 +11,6 @@ export const meta: MetaFunction = () => {
     { title: "New Remix App" },
     { name: "description", content: "Welcome to Remix!" },
   ];
-};
-
-export const loader = async () => {
-  return json({
-    lngs: {
-      en: { nativeName: "English" },
-      ru: { nativeName: "Русский" },
-    },
-  });
 };
 
 export default function Index() {

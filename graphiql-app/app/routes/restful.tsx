@@ -1,5 +1,4 @@
 import CodeEditor from "~/components/CodeEditor";
-import Header from "../components/Header";
 
 const templateResponse = {
   response: {
@@ -10,7 +9,6 @@ const templateResponse = {
 export default function Restful() {
   return (
     <>
-      <Header />
       <CodeEditor
         language="json"
         readonly={false}
