@@ -18,11 +18,8 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
         const hasRedirected = localStorage.getItem("hasRedirected");
         if (!hasRedirected) {
           localStorage.setItem("hasRedirected", "auth");
-          navigate("/dashboard");
+          navigate("/");
         }
-      } else {
-        localStorage.removeItem("hasRedirected");
-        navigate("/");
       }
       setLoading(false);
     });
