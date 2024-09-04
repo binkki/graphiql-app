@@ -10,16 +10,15 @@ interface AuthCheckProps {
 
 const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        const hasRedirected = localStorage.getItem("hasRedirected");
-        if (!hasRedirected) {
-          localStorage.setItem("hasRedirected", "auth");
-          navigate("/");
-        }
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(true);
       }
       setLoading(false);
     });
@@ -31,7 +30,7 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  return <>{children}</>;
+  return <>{isAuthenticated ? children : null}</>;
 };
 
 AuthCheck.propTypes = {

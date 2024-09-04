@@ -15,5 +15,6 @@
   "or": "or",
   "home_page": "Home page",
   "you_are_already_logged_in": "You are already logged in",
-  "you_are_already_registered": "You are already registered"
+  "you_are_already_registered": "You are already registered",
+  "you_must_login_or_register": "You must login or register"
 }

@@ -15,5 +15,6 @@
   "or": "или",
   "home_page": "На главную",
   "you_are_already_logged_in": "Вы уже авторизованы",
-  "you_are_already_registered": "Вы уже зарегистрированы"
+  "you_are_already_registered": "Вы уже зарегистрированы",
+  "you_must_login_or_register": "Необходимо войти или зарегистрироваться"
 }
