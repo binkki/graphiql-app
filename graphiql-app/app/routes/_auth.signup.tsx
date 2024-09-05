@@ -35,8 +35,18 @@ const SignUp: React.FC = () => {
   }, []);
 
   const validateEmail = (email: string) => {
+    if (email.length < 3) {
+      return false;
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    if (!emailRegex.test(email)) {
+      return false;
+    }
+
+    const firebaseEmailRegex =
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return firebaseEmailRegex.test(email);
   };
 
   const validatePassword = (password: string) => {
