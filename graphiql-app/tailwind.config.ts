@@ -6,6 +6,8 @@ export default {
     extend: {
       scrollBehavior: {
         smooth: "smooth",
+      fontSize: {
+        base: "16px",
       },
     },
   },
