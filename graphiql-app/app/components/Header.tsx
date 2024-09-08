@@ -1,9 +1,11 @@
 import { Link, useLocation } from "@remix-run/react";
-import { useTranslation } from "react-i18next";
-import i18nextOptions from "../i18nextOptions";
 import { onAuthStateChanged, User } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { auth } from "~/firebase";
-import { useState, useEffect } from "react";
+import signOutImgWhite from "../../public/sing-out-white.svg";
+import signOutImgBlack from "../../public/sing-out.svg";
+import i18nextOptions from "../i18nextOptions";
 import UserSingOut from "./UserSingOut/UserSingOut";
 
 export const handle = {
@@ -15,6 +17,7 @@ export default function Header() {
   const { t, ready, i18n } = useTranslation();
   const location = useLocation();
   const [authUser, setAuthUser] = useState<User | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -27,48 +30,94 @@ export default function Header() {
     return () => listen();
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const header = document.getElementById("header");
+      if (header) {
+        if (window.scrollY > 50) {
+          header.classList.add("header-small");
+          setIsScrolled(true);
+        } else {
+          header.classList.remove("header-small");
+          setIsScrolled(false);
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   if (!ready) return <div>Loading...</div>;
   return (
-    <header className="flex flex-wrap justify-between content-center h-24 p-4 sticky text-3xl text-white bg-gradient-to-t from-gray-300 to-black">
-      <h1 className="p-8">Graphiql App</h1>
-      <div className="p-8">
+    <header id="header" className="header">
+      <h1>
+        <Link
+          className={`font-bold text-[24px] text-lg text-center self-center transition-colors duration-300 mr-5 ${isScrolled ? "text-white hover:text-[#b4b3b3]" : "text-black hover:text-white"}`}
+          to="/"
+        >
+          Graphiql App
+        </Link>
+      </h1>
+      <div>
         {lngs.map((lng) => (
           <Link
             key={lng}
-            style={{
-              marginRight: 5,
-              fontWeight: i18n.resolvedLanguage === lng ? "bold" : "normal",
-            }}
+            className={`font-normal text-xl mr-2 last:mr-0 ${
+              i18n.resolvedLanguage === lng
+                ? `font-extrabold ${isScrolled ? "text-white hover:text-[#c3c3c3]" : "text-black hover:text-white"}`
+                : `text-lg font-semibold text-center self-center transition-colors duration-300 mr-5 ${
+                    isScrolled
+                      ? "text-white hover:text-[#c3c3c3]"
+                      : "text-black hover:text-white"
+                  }`
+            }`}
             to={`${location.pathname}?lng=${lng}`}
           >
             {lng.toUpperCase()}
           </Link>
         ))}
       </div>
+
       {!authUser ? (
-        <div className="flex">
+        <div className="flex items-center">
           <Link
-            className="text-2xl m-4 border-solid rounded-3xl bg-gray-500 p-4 bg-gradient-to-tl from-gray-300 via-gray-500 to-black text-center align-self-center hover:bg-gradient-to-tr hover:from-black hover:via-gray-500 hover:to-gray-300"
+            className={`text-lg font-semibold text-center self-center transition-colors duration-300 mr-5 ${isScrolled ? "text-white hover:text-[#b4b3b3]" : "text-black hover:text-white"}`}
             to="/signin"
           >
             {t("signin")}
           </Link>
           <Link
-            className="text-2xl m-4 border-solid rounded-3xl bg-gray-500 p-4 bg-gradient-to-tl from-gray-300 via-gray-500 to-black text-center align-self-center hover:bg-gradient-to-tr hover:from-black hover:via-gray-500 hover:to-gray-300"
+            className={`text-lg font-semibold text-center self-center transition-colors duration-300 mr-5 ${isScrolled ? "text-white hover:text-[#b4b3b3]" : "text-black hover:text-white"}`}
             to="/signup"
           >
             {t("signup")}
           </Link>
         </div>
       ) : (
-        <div className="flex">
+        <div className="flex items-center">
           <Link
-            className="text-2xl m-4 border-solid rounded-3xl bg-gray-500 p-4 bg-gradient-to-tl from-gray-300 via-gray-500 to-black text-center align-self-center hover:bg-gradient-to-tr hover:from-black hover:via-gray-500 hover:to-gray-300"
-            to="/"
+            className={`text-lg font-semibold text-center self-center transition-colors duration-300 mr-5 ${isScrolled ? "text-white hover:text-[#b4b3b3]" : "text-black hover:text-white"}`}
+            to="/restful"
           >
-            {t("home_page")}
+            Restful Client
           </Link>
-          <UserSingOut />
+          <Link
+            className={`text-lg font-semibold text-center self-center transition-colors duration-300 mr-5 ${isScrolled ? "text-white hover:text-[#b4b3b3]" : "text-black hover:text-white"}`}
+            to="/graphiql"
+          >
+            Graphiql Client
+          </Link>
+          <Link
+            className={`text-lg font-semibold text-center self-center transition-colors duration-300 mr-5 ${isScrolled ? "text-white hover:text-[#b4b3b3]" : "text-black hover:text-white"}`}
+            to="/history"
+          >
+            History
+          </Link>
+          <UserSingOut
+            src={isScrolled ? signOutImgWhite : signOutImgBlack}
+            alt={"Sign Out"}
+            title={"Sign Out"}
+          />
         </div>
       )}
     </header>
