@@ -35,10 +35,10 @@ export default function Header() {
       const header = document.getElementById("header");
       if (header) {
         if (window.scrollY > 50) {
-          header.classList.add("header-small");
+          header.classList.add("h-[60px]");
           setIsScrolled(true);
         } else {
-          header.classList.remove("header-small");
+          header.classList.remove("h-[60px]");
           setIsScrolled(false);
         }
       }
@@ -49,7 +49,10 @@ export default function Header() {
 
   if (!ready) return <div>Loading...</div>;
   return (
-    <header id="header" className="header">
+    <header
+      id="header"
+      className="flex flex-wrap justify-between content-center h-24 p-4 sticky text-3xl text-white bg-gradient-to-t from-gray-300 to-black top-0 transition-all duration-300"
+    >
       <h1>
         <Link
           className={`font-bold text-[24px] text-lg text-center self-center transition-colors duration-300 mr-5 ${isScrolled ? "text-white hover:text-[#b4b3b3]" : "text-black hover:text-white"}`}
@@ -62,7 +65,7 @@ export default function Header() {
         {lngs.map((lng) => (
           <Link
             key={lng}
-            className={`font-normal text-xl mr-2 last:mr-0 ${
+            className={`font-normal text-xl mr-2 last:mr-0 transition-colors duration-300 ${
               i18n.resolvedLanguage === lng
                 ? `font-extrabold ${isScrolled ? "text-white hover:text-[#c3c3c3]" : "text-black hover:text-white"}`
                 : `text-lg font-semibold text-center self-center transition-colors duration-300 mr-5 ${
