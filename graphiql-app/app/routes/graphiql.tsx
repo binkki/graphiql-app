@@ -1,4 +1,5 @@
 import { onAuthStateChanged, User } from "firebase/auth";
+import { getIntrospectionQuery } from "graphql";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import CodeEditor from "~/components/CodeEditor";
@@ -16,13 +17,14 @@ export default function Graphiql() {
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [endpoint, setEndpoint] = useState<string>("");
   const [headers, setHeaders] = useState<{ key: string; value: string }[]>([]);
-  // const [query, setQuery] = useState<string>("query { }");
   const [response, setResponse] = useState<string>(
     JSON.stringify(templateResponse),
   );
-  // const [variables, setVariables] = useState<string>("{}");
   const queryEditorRef = useRef<{ getValue: () => string } | null>(null);
   const variablesEditorRef = useRef<{ getValue: () => string } | null>(null);
+  const [sdlEndpoint, setSdlEndpoint] = useState<string>("");
+  const [showDocs, setShowDocs] = useState(false);
+  const [documentation, setDocumentation] = useState<string>("");
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -65,6 +67,20 @@ export default function Graphiql() {
       });
       const json = await res.json();
       setResponse(JSON.stringify({ status: res.status, data: json }, null, 2));
+      if (res.ok) {
+        const sdlRes = await fetch(sdlEndpoint || `${endpoint}?sdl`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: getIntrospectionQuery(),
+          }),
+        });
+        const sdlText = await sdlRes.json();
+        setDocumentation(JSON.stringify(sdlText, null, 2));
+        setShowDocs(true);
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
         setResponse(
@@ -87,6 +103,16 @@ export default function Graphiql() {
               id="endpointInput"
               onChange={(e) => setEndpoint(e.target.value)}
               className="input"
+            />
+          </div>
+          <div>
+            <label htmlFor="sdlEndpointUrl">SDL Endpoint URL</label>
+            <input
+              type="text"
+              placeholder="SDL Endpoint URL"
+              value={sdlEndpoint}
+              id="sdlEndpointUrl"
+              onChange={(e) => setSdlEndpoint(e.target.value)}
             />
           </div>
           <div>
@@ -131,12 +157,19 @@ export default function Graphiql() {
             />
           </div>
           <button onClick={handleExecuteQuery}>Execute</button>
-          <CodeEditor
+          {/* <CodeEditor
             language="json"
             readonly={true}
             value={response}
             id="graphiql-response-editor"
-          />
+          /> */}
+          <pre>{response}</pre>
+          {showDocs && (
+            <div className="mt-4">
+              <h3>Documentation</h3>
+              <pre>{documentation}</pre>
+            </div>
+          )}
         </>
       ) : (
         <h2 className="text-center mb-12 mt-12">
