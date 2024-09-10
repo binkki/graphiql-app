@@ -48,6 +48,7 @@ export default function Graphiql() {
   };
 
   const handleExecuteQuery = async () => {
+    setShowDocs(false);
     const query = queryEditorRef.current?.getValue() || "";
     const variables = variablesEditorRef.current?.getValue() || "{}";
     try {
@@ -78,8 +79,10 @@ export default function Graphiql() {
           }),
         });
         const sdlText = await sdlRes.json();
-        setDocumentation(JSON.stringify(sdlText, null, 2));
-        setShowDocs(true);
+        if (sdlRes.ok) {
+          setDocumentation(JSON.stringify(sdlText, null, 2));
+          setShowDocs(true);
+        }
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -137,7 +140,12 @@ export default function Graphiql() {
                 />
               </div>
             ))}
-            <button onClick={addHeader}>Add a header</button>
+            <button
+              className="h-10 px-5 m-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+              onClick={addHeader}
+            >
+              Add a header
+            </button>
           </div>
           <CodeEditor
             language="graphql"
@@ -156,7 +164,12 @@ export default function Graphiql() {
               ref={variablesEditorRef}
             />
           </div>
-          <button onClick={handleExecuteQuery}>Execute</button>
+          <button
+            className="h-10 px-5 m-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+            onClick={handleExecuteQuery}
+          >
+            Execute
+          </button>
           {/* <CodeEditor
             language="json"
             readonly={true}
