@@ -19,11 +19,11 @@ export default function Graphiql() {
   const [showHeaders, setShowHeaders] = useState<{
     flag: boolean;
     text: string;
-  }>({ flag: false, text: "Show Headers" });
+  }>({ flag: false, text: "Show Headers ↓" });
   const [showVariables, setShowVariables] = useState<{
     flag: boolean;
     text: string;
-  }>({ flag: false, text: "Show Variables" });
+  }>({ flag: false, text: "Show Variables ↓" });
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -96,24 +96,24 @@ export default function Graphiql() {
 
   function toggleHeaders() {
     if (showHeaders.flag) {
-      setShowHeaders({ flag: false, text: "Show Headers" });
+      setShowHeaders({ flag: false, text: "Show Headers ↓" });
     } else {
-      setShowHeaders({ flag: true, text: "Hide Headers" });
+      setShowHeaders({ flag: true, text: "Hide Headers ↑" });
     }
   }
 
   function toggleVariables() {
     if (showVariables.flag) {
-      setShowVariables({ flag: false, text: "Show Variables" });
+      setShowVariables({ flag: false, text: "Show Variables ↓" });
     } else {
-      setShowVariables({ flag: true, text: "Hide Variables" });
+      setShowVariables({ flag: true, text: "Hide Variables ↑" });
     }
   }
 
   return (
     <>
       {authUser ? (
-        <>
+        <div className="my-8 mx-auto w-10/12 flex flex-col gap-2">
           <div>
             <label htmlFor="endpointInput">Endpoint URL:</label>
             <input
@@ -122,7 +122,7 @@ export default function Graphiql() {
               value={endpoint}
               id="endpointInput"
               onChange={(e) => setEndpoint(e.target.value)}
-              className="input"
+              className="ml-2 inline-block w-1/2"
             />
           </div>
           <div>
@@ -133,9 +133,12 @@ export default function Graphiql() {
               value={sdlEndpoint}
               id="sdlEndpointUrl"
               onChange={(e) => setSdlEndpoint(e.target.value)}
+              className="ml-2 inline-block w-1/2"
             />
           </div>
-          <button onClick={toggleHeaders}>{showHeaders.text}</button>
+          <button className="inline-block w-64" onClick={toggleHeaders}>
+            {showHeaders.text}
+          </button>
           {showHeaders.flag && (
             <div>
               {headers.map((header, index) => (
@@ -175,7 +178,9 @@ export default function Graphiql() {
             id="graphiql-request-editor"
             onBlur={changeURLonFocusOut}
           />
-          <button onClick={toggleVariables}>{showVariables.text}</button>
+          <button className="inline-block w-64" onClick={toggleVariables}>
+            {showVariables.text}
+          </button>
           {showVariables.flag && (
             <div className="mb-4">
               <label htmlFor="graphiql-variables-editor">Variables:</label>
@@ -190,13 +195,13 @@ export default function Graphiql() {
           )}
 
           <button
-            className="h-10 px-5 m-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+            className="h-10 px-5 m-2 inline-block w-24 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
             onClick={handleExecuteQuery}
           >
             Execute
           </button>
           <Outlet />
-        </>
+        </div>
       ) : (
         <h2 className="text-center mb-12 mt-12">
           {t("you_must_login_or_register")}
