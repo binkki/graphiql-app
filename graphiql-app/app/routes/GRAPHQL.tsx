@@ -81,6 +81,7 @@ export default function Graphiql() {
       query,
       variables,
       headersForQuery,
+      sdlEndpoint,
     );
     return { query, variables, headersForQuery, graphiQLUrl };
   }

@@ -11,9 +11,15 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const endpoint = decodeBase64(params.endpoint || "");
   const body = decodeBase64(params.body || "");
   const { query, variables } = JSON.parse(body);
-
   const url = new URL(request.url);
-  const headers = Object.fromEntries(url.searchParams.entries());
+  const headers = Object.fromEntries(
+    [...url.searchParams.entries()].filter(
+      ([key]) => key !== "sdl" && key !== "lng",
+    ),
+  );
+  const sdlEncoded = url.searchParams.get("sdl");
+  const sdlEndpointDiff = sdlEncoded ? decodeBase64(sdlEncoded) : "";
+
   try {
     const response = await fetch(endpoint, {
       method: "POST",
@@ -29,7 +35,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     let sdlDocs: string | null = null;
 
     if (!jsonResponse.errors) {
-      const sdlEndpoint = `${endpoint}?sdl`;
+      const sdlEndpoint = sdlEndpointDiff ? sdlEndpointDiff : `${endpoint}?sdl`;
       const sdlResponse = await fetch(sdlEndpoint, {
         method: "POST",
         headers: {
