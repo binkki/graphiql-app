@@ -1,15 +1,17 @@
+import { Outlet } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { getIntrospectionQuery } from "graphql";
+// import { getIntrospectionQuery } from "graphql";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import CodeEditor from "~/components/CodeEditor";
 import { auth } from "~/firebase";
+import { buildGraphiQLUrl } from "~/utils/encode";
 
-const templateResponse = {
-  response: {
-    body: "some data",
-  },
-};
+// const templateResponse = {
+//   response: {
+//     body: "some data",
+//   },
+// };
 
 export default function Graphiql() {
   const { t } = useTranslation();
@@ -17,14 +19,12 @@ export default function Graphiql() {
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [endpoint, setEndpoint] = useState<string>("");
   const [headers, setHeaders] = useState<{ key: string; value: string }[]>([]);
-  const [response, setResponse] = useState<string>(
-    JSON.stringify(templateResponse),
-  );
+  // const [response, setResponse] = useState<string>(
+  //   JSON.stringify(templateResponse),
+  // );
   const queryEditorRef = useRef<{ getValue: () => string } | null>(null);
   const variablesEditorRef = useRef<{ getValue: () => string } | null>(null);
   const [sdlEndpoint, setSdlEndpoint] = useState<string>("");
-  const [showDocs, setShowDocs] = useState(false);
-  const [documentation, setDocumentation] = useState<string>("");
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -48,9 +48,21 @@ export default function Graphiql() {
   };
 
   const handleExecuteQuery = async () => {
-    setShowDocs(false);
     const query = queryEditorRef.current?.getValue() || "";
     const variables = variablesEditorRef.current?.getValue() || "{}";
+    const headersForQuery = {
+      "Content-Type": "application/json",
+      ...headers.reduce(
+        (acc, { key, value }) => ({ ...acc, [key]: value }),
+        {},
+      ),
+    };
+    const graphiQLUrl = buildGraphiQLUrl(
+      endpoint,
+      query,
+      variables,
+      headersForQuery,
+    );
     try {
       const res = await fetch(endpoint, {
         method: "POST",
@@ -66,31 +78,51 @@ export default function Graphiql() {
           variables: variables ? JSON.parse(variables) : undefined,
         }),
       });
-      const json = await res.json();
-      setResponse(JSON.stringify({ status: res.status, data: json }, null, 2));
-      if (res.ok) {
-        const sdlRes = await fetch(sdlEndpoint || `${endpoint}?sdl`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: getIntrospectionQuery(),
-          }),
-        });
-        const sdlText = await sdlRes.json();
-        if (sdlRes.ok) {
-          setDocumentation(JSON.stringify(sdlText, null, 2));
-          setShowDocs(true);
-        }
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setResponse(
-          JSON.stringify({ status: "Error", data: error.message }, null, 2),
-        );
-      }
+      if (res.ok) window.location.href = `${graphiQLUrl}`;
+    } catch (err) {
+      console.log(err);
     }
+    // Redirect the user to the URL, so the query is executed
+    // try {
+    //   const res = await fetch(endpoint, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       ...headers.reduce(
+    //         (acc, { key, value }) => ({ ...acc, [key]: value }),
+    //         {},
+    //       ),
+    //     },
+    //     body: JSON.stringify({
+    //       query,
+    //       variables: variables ? JSON.parse(variables) : undefined,
+    //     }),
+    //   });
+    //   const json = await res.json();
+    //   setResponse(JSON.stringify({ status: res.status, data: json }, null, 2));
+    //   if (res.ok) {
+    //     const sdlRes = await fetch(sdlEndpoint || `${endpoint}?sdl`, {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         query: getIntrospectionQuery(),
+    //       }),
+    //     });
+    //     const sdlText = await sdlRes.json();
+    //     if (sdlRes.ok) {
+    //       setDocumentation(JSON.stringify(sdlText, null, 2));
+    //       setShowDocs(true);
+    //     }
+    //   }
+    // } catch (error: unknown) {
+    //   if (error instanceof Error) {
+    //     setResponse(
+    //       JSON.stringify({ status: "Error", data: error.message }, null, 2),
+    //     );
+    //   }
+    // }
   };
 
   return (
@@ -176,13 +208,14 @@ export default function Graphiql() {
             value={response}
             id="graphiql-response-editor"
           /> */}
-          <pre>{response}</pre>
-          {showDocs && (
+          {/* <pre>{response}</pre> */}
+          <Outlet />
+          {/* {showDocs && (
             <div className="mt-4">
               <h3>Documentation</h3>
               <pre>{documentation}</pre>
             </div>
-          )}
+          )} */}
         </>
       ) : (
         <h2 className="text-center mb-12 mt-12">
