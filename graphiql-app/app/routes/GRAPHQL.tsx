@@ -15,6 +15,14 @@ export default function Graphiql() {
   const queryEditorRef = useRef<{ getValue: () => string } | null>(null);
   const variablesEditorRef = useRef<{ getValue: () => string } | null>(null);
   const [sdlEndpoint, setSdlEndpoint] = useState<string>("");
+  const [showHeaders, setShowHeaders] = useState<{
+    flag: boolean;
+    text: string;
+  }>({ flag: false, text: "Show Headers" });
+  const [showVariables, setShowVariables] = useState<{
+    flag: boolean;
+    text: string;
+  }>({ flag: false, text: "Show Variables" });
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -50,7 +58,9 @@ export default function Graphiql() {
           variables: variables ? JSON.parse(variables) : undefined,
         }),
       });
-      if (res.ok) window.location.href = `${graphiQLUrl}`;
+      if (res.ok) {
+        window.location.href = `${graphiQLUrl}`;
+      }
     } catch (err) {
       console.log(err);
     }
@@ -80,6 +90,22 @@ export default function Graphiql() {
     window.history.replaceState(null, document.title, graphiQLUrl);
   }
 
+  function toggleHeaders() {
+    if (showHeaders.flag) {
+      setShowHeaders({ flag: false, text: "Show Headers" });
+    } else {
+      setShowHeaders({ flag: true, text: "Hide Headers" });
+    }
+  }
+
+  function toggleVariables() {
+    if (showVariables.flag) {
+      setShowVariables({ flag: false, text: "Show Variables" });
+    } else {
+      setShowVariables({ flag: true, text: "Hide Variables" });
+    }
+  }
+
   return (
     <>
       {authUser ? (
@@ -105,35 +131,38 @@ export default function Graphiql() {
               onChange={(e) => setSdlEndpoint(e.target.value)}
             />
           </div>
-          <div>
-            <label htmlFor="headers">Headers:</label>
-            {headers.map((header, index) => (
-              <div key={index}>
-                <input
-                  placeholder="Header Key"
-                  type="text"
-                  value={header.key}
-                  onChange={(e) =>
-                    handleHeaderChange(index, e.target.value, header.value)
-                  }
-                />
-                <input
-                  type="text"
-                  value={header.value}
-                  placeholder="Header Value"
-                  onChange={(e) =>
-                    handleHeaderChange(index, header.key, e.target.value)
-                  }
-                />
-              </div>
-            ))}
-            <button
-              className="h-10 px-5 m-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
-              onClick={addHeader}
-            >
-              Add a header
-            </button>
-          </div>
+          <button onClick={toggleHeaders}>{showHeaders.text}</button>
+          {showHeaders.flag && (
+            <div>
+              {headers.map((header, index) => (
+                <div key={index}>
+                  <input
+                    placeholder="Header Key"
+                    type="text"
+                    value={header.key}
+                    onChange={(e) =>
+                      handleHeaderChange(index, e.target.value, header.value)
+                    }
+                  />
+                  <input
+                    type="text"
+                    value={header.value}
+                    placeholder="Header Value"
+                    onChange={(e) =>
+                      handleHeaderChange(index, header.key, e.target.value)
+                    }
+                  />
+                </div>
+              ))}
+              <button
+                className="h-10 px-5 m-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+                onClick={addHeader}
+              >
+                Add a header
+              </button>
+            </div>
+          )}
+
           <CodeEditor
             language="graphql"
             value=""
@@ -142,16 +171,20 @@ export default function Graphiql() {
             id="graphiql-request-editor"
             onBlur={changeURLonFocusOut}
           />
-          <div className="mb-4">
-            <label htmlFor="graphiql-variables-editor">Variables:</label>
-            <CodeEditor
-              language="json"
-              value="{}"
-              readonly={false}
-              id="graphiql-variables-editor"
-              ref={variablesEditorRef}
-            />
-          </div>
+          <button onClick={toggleVariables}>{showVariables.text}</button>
+          {showVariables.flag && (
+            <div className="mb-4">
+              <label htmlFor="graphiql-variables-editor">Variables:</label>
+              <CodeEditor
+                language="json"
+                value="{}"
+                readonly={false}
+                id="graphiql-variables-editor"
+                ref={variablesEditorRef}
+              />
+            </div>
+          )}
+
           <button
             className="h-10 px-5 m-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
             onClick={handleExecuteQuery}
