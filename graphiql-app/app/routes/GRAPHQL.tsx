@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import CodeEditor from "~/components/CodeEditor";
 import { auth } from "~/firebase";
 import { buildGraphiQLUrl } from "~/utils/encode";
+import showToast from "~/utils/toast";
 
 export default function Graphiql() {
   const { t } = useTranslation();
@@ -60,9 +61,11 @@ export default function Graphiql() {
       });
       if (res.ok) {
         window.location.href = `${graphiQLUrl}`;
+      } else {
+        showToast("Incorrect URL or query. Please check.", true);
       }
     } catch (err) {
-      console.log(err);
+      if (err instanceof Error) showToast(err.message, true);
     }
   };
 

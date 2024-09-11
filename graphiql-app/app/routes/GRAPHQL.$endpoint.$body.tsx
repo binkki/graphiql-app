@@ -2,6 +2,7 @@ import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { decodeBase64 } from "~/utils/encode";
 import { getIntrospectionQuery } from "graphql";
+import showToast from "~/utils/toast";
 type LoaderData = {
   jsonResponse: unknown;
   sdlDocs: string | null;
@@ -51,7 +52,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
     return json<LoaderData>({ jsonResponse, sdlDocs });
   } catch (err) {
-    console.log(err);
+    if (err instanceof Error) showToast(err.message, true);
   }
 };
 
