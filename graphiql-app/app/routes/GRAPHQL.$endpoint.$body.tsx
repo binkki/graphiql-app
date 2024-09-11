@@ -3,6 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { decodeBase64 } from "~/utils/encode";
 import { getIntrospectionQuery } from "graphql";
 import showToast from "~/utils/toast";
+import { useTranslation } from "react-i18next";
 type LoaderData = {
   jsonResponse: unknown;
   sdlDocs: string | null;
@@ -58,13 +59,15 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
 export default function GraphiQLResponse() {
   const { jsonResponse, sdlDocs } = useLoaderData<LoaderData>();
+  const { t } = useTranslation();
+
   return (
     <div>
-      <h1>GraphiQL Response</h1>
+      <h1>{t("GraphQLResponse")}</h1>
       <pre>{JSON.stringify(jsonResponse, null, 2)}</pre>
       {sdlDocs && (
         <div>
-          <h2>SDL Documentation</h2>
+          <h2>{t("sdlDocs")}</h2>
           <pre>{JSON.stringify(sdlDocs, null, 2)}</pre>
         </div>
       )}

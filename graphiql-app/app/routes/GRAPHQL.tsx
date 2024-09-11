@@ -9,7 +9,6 @@ import showToast from "~/utils/toast";
 
 export default function Graphiql() {
   const { t } = useTranslation();
-
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [endpoint, setEndpoint] = useState<string>("");
   const [headers, setHeaders] = useState<{ key: string; value: string }[]>([]);
@@ -19,11 +18,11 @@ export default function Graphiql() {
   const [showHeaders, setShowHeaders] = useState<{
     flag: boolean;
     text: string;
-  }>({ flag: false, text: "Show Headers ↓" });
+  }>({ flag: false, text: t("show_headers") });
   const [showVariables, setShowVariables] = useState<{
     flag: boolean;
     text: string;
-  }>({ flag: false, text: "Show Variables ↓" });
+  }>({ flag: false, text: t("show_variables") });
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -62,7 +61,7 @@ export default function Graphiql() {
       if (res.ok) {
         window.location.href = `${graphiQLUrl}`;
       } else {
-        showToast("Incorrect URL or query. Please check.", true);
+        showToast(t("error_incorrectURL"), true);
       }
     } catch (err) {
       if (err instanceof Error) showToast(err.message, true);
@@ -96,17 +95,17 @@ export default function Graphiql() {
 
   function toggleHeaders() {
     if (showHeaders.flag) {
-      setShowHeaders({ flag: false, text: "Show Headers ↓" });
+      setShowHeaders({ flag: false, text: t("show_headers") });
     } else {
-      setShowHeaders({ flag: true, text: "Hide Headers ↑" });
+      setShowHeaders({ flag: true, text: t("hide_headers") });
     }
   }
 
   function toggleVariables() {
     if (showVariables.flag) {
-      setShowVariables({ flag: false, text: "Show Variables ↓" });
+      setShowVariables({ flag: false, text: t("show_variables") });
     } else {
-      setShowVariables({ flag: true, text: "Hide Variables ↑" });
+      setShowVariables({ flag: true, text: t("hide_variables") });
     }
   }
 
@@ -115,7 +114,7 @@ export default function Graphiql() {
       {authUser ? (
         <div className="my-8 mx-auto w-10/12 flex flex-col gap-2">
           <div>
-            <label htmlFor="endpointInput">Endpoint URL:</label>
+            <label htmlFor="endpointInput">{t("EndpointURL")}</label>
             <input
               type="text"
               placeholder="Endpoint URL"
@@ -126,7 +125,7 @@ export default function Graphiql() {
             />
           </div>
           <div>
-            <label htmlFor="sdlEndpointUrl">SDL Endpoint URL</label>
+            <label htmlFor="sdlEndpointUrl">{t("sdlEndpointURL")}</label>
             <input
               type="text"
               placeholder="SDL Endpoint URL"
@@ -165,7 +164,7 @@ export default function Graphiql() {
                 className="h-10 px-5 m-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
                 onClick={addHeader}
               >
-                Add a header
+                {t("add_header")}
               </button>
             </div>
           )}
@@ -183,7 +182,9 @@ export default function Graphiql() {
           </button>
           {showVariables.flag && (
             <div className="mb-4">
-              <label htmlFor="graphiql-variables-editor">Variables:</label>
+              <label htmlFor="graphiql-variables-editor">
+                {t("variables")}
+              </label>
               <CodeEditor
                 language="json"
                 value="{}"
@@ -195,10 +196,10 @@ export default function Graphiql() {
           )}
 
           <button
-            className="h-10 px-5 m-2 inline-block w-24 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+            className="h-10 px-5 m-2 inline-block w-48 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
             onClick={handleExecuteQuery}
           >
-            Execute
+            {t("execute")}
           </button>
           <Outlet />
         </div>
