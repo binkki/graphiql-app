@@ -7,6 +7,7 @@ type CodeEditorProps = {
   readonly: boolean;
   value: string;
   id: string;
+  onBlur?: () => void;
 };
 
 const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
@@ -36,6 +37,11 @@ const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
           contextmenu: false,
         });
         monacoEditor.layout({ width: 400, height: 200 });
+        monacoEditor.onDidBlurEditorText(() => {
+          if (!props.readonly && props.onBlur) {
+            props.onBlur();
+          }
+        });
         setTimeout(() => {
           monacoEditor
             .getAction("editor.action.formatDocument")

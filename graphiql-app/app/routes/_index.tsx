@@ -41,7 +41,7 @@ export default function Index() {
               <Link to={"/restful"}>Restful Client</Link>
             </div>
             <div>
-              <Link to={"/graphiql"}>Graphiql Client</Link>
+              <Link to={"/GRAPHQL"}>Graphiql Client</Link>
             </div>
           </div>
           <UserSingOut />
