@@ -106,7 +106,7 @@ export default function Header() {
           </Link>
           <Link
             className={`text-lg font-semibold text-center self-center transition-colors duration-300 mr-5 ${isScrolled ? "text-white hover:text-[#b4b3b3]" : "text-black hover:text-white"}`}
-            to="/graphiql"
+            to="/GRAPHQL"
           >
             Graphiql Client
           </Link>

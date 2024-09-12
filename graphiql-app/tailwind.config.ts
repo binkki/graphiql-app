@@ -5,7 +5,8 @@ export default {
   theme: {
     extend: {
       scrollBehavior: {
-        smooth: "smooth"},
+        smooth: "smooth",
+      },
       fontSize: {
         base: "16px",
       },

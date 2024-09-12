@@ -16,5 +16,17 @@
   "home_page": "Home page",
   "you_are_already_logged_in": "You are already logged in",
   "you_are_already_registered": "You are already registered",
-  "you_must_login_or_register": "You must login or register"
+  "you_must_login_or_register": "You must login or register",
+  "show_headers": "Show Headers ↓",
+  "hide_headers": "Hide Headers ↑",
+  "show_variables": "Show Variables ↓",
+  "hide_variables": "Hide Variables ↑",
+  "error_incorrectURL": "Incorrect URL or query. Please check.",
+  "EndpointURL": "Endpoint URL:",
+  "sdlEndpointURL": "SDL Endpoint URL:",
+  "add_header": "Add a header",
+  "variables": "Variables:",
+  "execute": "Execute",
+  "GraphQLResponse": "GraphiQL Response",
+  "sdlDocs": "SDL Documentation"
 }

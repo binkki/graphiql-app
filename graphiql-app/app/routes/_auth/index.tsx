@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 export default function AuthIndex() {
   const { t } = useTranslation();
+
   return (
     <>
       <h1 className="text-4xl text-center m-4">{t("greeting")}</h1>

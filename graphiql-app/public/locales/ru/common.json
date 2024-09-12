@@ -16,5 +16,17 @@
   "home_page": "На главную",
   "you_are_already_logged_in": "Вы уже авторизованы",
   "you_are_already_registered": "Вы уже зарегистрированы",
-  "you_must_login_or_register": "Необходимо войти или зарегистрироваться"
+  "you_must_login_or_register": "Необходимо войти или зарегистрироваться",
+  "show_headers": "Показать заголовки ↓",
+  "hide_headers": "Скрыть заголовки ↑",
+  "show_variables": "Показать переменные ↓",
+  "hide_variables": "Скрыть переменные ↑",
+  "error_incorrectURL": "Некорректный адрес или запрос. Пожалуйста, проверьте",
+  "EndpointURL": "Эндпойнт URL:",
+  "sdlEndpointURL": "SDL Эндпойнт URL:",
+  "add_header": "Добавить заголовок",
+  "variables": "Переменные:",
+  "execute": "Выполнить запрос",
+  "GraphQLResponse": "Результат запроса GraphiQL",
+  "sdlDocs": "SDL Документация"
 }

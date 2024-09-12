@@ -44,7 +44,7 @@ export default function Index() {
                 <Link to={"/restful"}>Restful Client</Link>
               </li>
               <li className="border border-solid p-1.5 rounded-lg w-36 bg-[#ffe4c4] font-semibold flex justify-center hover:bg-[#d4b362]">
-                <Link to={"/graphiql"}>Graphiql Client</Link>
+                <Link to={"/GRAPHQL"}>Graphiql Client</Link>
               </li>
               <li className="border border-solid p-1.5 rounded-lg w-36 bg-[#ffe4c4] font-semibold flex justify-center hover:bg-[#d4b362]">
                 <Link to={"/history"}>History</Link>
