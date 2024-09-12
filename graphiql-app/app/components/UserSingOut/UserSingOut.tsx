@@ -1,25 +1,38 @@
+import { Link } from "@remix-run/react";
 import { signOut } from "firebase/auth";
-import { useTranslation } from "react-i18next";
 import { auth } from "~/firebase";
+import PropTypes from "prop-types";
 
-const UserSingOut = () => {
-  const { t } = useTranslation();
+interface UserSingOutProps {
+  src: string;
+  alt: string;
+  title: string;
+}
+
+const UserSingOut: React.FC<UserSingOutProps> = ({ src, alt, title }) => {
   function userSingOut() {
     signOut(auth)
       .then(() => console.log("sign out"))
       .catch((error) => console.error("Error signing out:", error));
   }
   return (
-    <div>
-      <button
-        className="text-2xl mt-4 border-solid rounded-3xl bg-gray-500 p-4 bg-gradient-to-tl from-gray-300 via-gray-500 to-black text-center align-self-center hover:bg-gradient-to-tr hover:from-black hover:via-gray-500 hover:to-gray-300"
-        type="button"
-        onClick={userSingOut}
-      >
-        {t("signout")}
-      </button>
-    </div>
+    <>
+      <Link to="/" onClick={userSingOut}>
+        <img
+          src={src}
+          alt={alt}
+          className="w-[20px] h-[20px] fill-current hover:opacity-70"
+          title={title}
+        />
+      </Link>
+    </>
   );
+};
+
+UserSingOut.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default UserSingOut;

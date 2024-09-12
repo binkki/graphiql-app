@@ -3,7 +3,6 @@ import { Link } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import UserSingOut from "~/components/UserSingOut/UserSingOut";
 import { auth } from "~/firebase";
 
 export const meta: MetaFunction = () => {
@@ -33,18 +32,25 @@ export default function Index() {
     <>
       {authUser ? (
         <>
-          <h1>
-            {t("greeting")}, {authUser.email}!
-          </h1>
-          <div>
-            <div>
-              <Link to={"/restful"}>Restful Client</Link>
-            </div>
-            <div>
-              <Link to={"/GRAPHQL"}>Graphiql Client</Link>
-            </div>
+          <h2 className="text-center text-2xl font-bold pt-12 mb-5">
+            {t("greeting")},
+          </h2>
+          <div className="text-center text-2xl font-medium m-0 mb-12">
+            {authUser.email}!
           </div>
-          <UserSingOut />
+          <div className="flex justify-center mb-[6.25rem]">
+            <ul className="flex items-center justify-between h-24 gap-5">
+              <li className="border border-solid p-1.5 rounded-lg w-36 bg-[#ffe4c4] font-semibold flex justify-center hover:bg-[#d4b362]">
+                <Link to={"/restful"}>Restful Client</Link>
+              </li>
+              <li className="border border-solid p-1.5 rounded-lg w-36 bg-[#ffe4c4] font-semibold flex justify-center hover:bg-[#d4b362]">
+                <Link to={"/GRAPHQL"}>Graphiql Client</Link>
+              </li>
+              <li className="border border-solid p-1.5 rounded-lg w-36 bg-[#ffe4c4] font-semibold flex justify-center hover:bg-[#d4b362]">
+                <Link to={"/history"}>History</Link>
+              </li>
+            </ul>
+          </div>
         </>
       ) : (
         <>

@@ -7,6 +7,10 @@ import {
 } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  validateEmail,
+  validatePassword,
+} from "~/components/DataHandling/DataHandling";
 import InputField from "../components/Input/Input";
 import { auth } from "../firebase";
 
@@ -33,28 +37,6 @@ const SignUp: React.FC = () => {
     });
     return () => listen();
   }, []);
-
-  const validateEmail = (email: string) => {
-    if (email.length < 3) {
-      return false;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return false;
-    }
-
-    const firebaseEmailRegex =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return firebaseEmailRegex.test(email);
-  };
-
-  const validatePassword = (password: string) => {
-    const unicodeRegex = /[\p{L}\p{N}\p{P}\p{S}]/u;
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).{8,}$/;
-
-    return passwordRegex.test(password) && unicodeRegex.test(password);
-  };
 
   const handleEmailChange = (data: string) => {
     setEmail(data);
@@ -182,7 +164,7 @@ const SignUp: React.FC = () => {
               )}
             </div>
             <button
-              className="text-2xl mt-4 border-solid rounded-3xl bg-gray-500 p-4 bg-gradient-to-tl from-gray-300 via-gray-500 to-black text-center align-self-center"
+              className="mt-4 border-solid rounded-3xl bg-gray-500 p-4 bg-gradient-to-tl from-gray-300 via-gray-500 to-black text-center align-self-center"
               type="button"
               onClick={signUpAction}
             >
