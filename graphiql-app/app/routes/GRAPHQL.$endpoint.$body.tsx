@@ -4,6 +4,7 @@ import { decodeBase64 } from "~/utils/encode";
 import { getIntrospectionQuery } from "graphql";
 import { i18nCookie } from "~/cookie";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const endpoint = decodeBase64(params.endpoint || "");
@@ -58,17 +59,34 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 export default function GraphiQLResponse() {
   const { jsonResponse, sdlDocs, err } = useLoaderData<typeof loader>();
   const { t } = useTranslation();
+  const [showDocs, setShowDocs] = useState<{
+    flag: boolean;
+    text: string;
+  }>({ flag: false, text: "Show Docs" });
+
+  function toggleDocs() {
+    if (showDocs.flag) {
+      setShowDocs({ flag: false, text: "Show Docs" });
+    } else {
+      setShowDocs({ flag: true, text: "Hide Docs" });
+    }
+  }
 
   return (
     <div>
       <h1>{t("GraphQLResponse")}</h1>
-      <pre>
+      <pre className="w-10/12">
         {jsonResponse ? JSON.stringify(jsonResponse, null, 2) : err.message}
       </pre>
       {sdlDocs && (
         <div>
           <h2>{t("sdlDocs")}</h2>
-          <pre>{JSON.stringify(sdlDocs, null, 2)}</pre>
+          <button onClick={toggleDocs}>{showDocs.text}</button>
+          {showDocs.flag && (
+            <pre className="w-full overflow-hidden">
+              {JSON.stringify(sdlDocs, null, 2)}
+            </pre>
+          )}
         </div>
       )}
     </div>
