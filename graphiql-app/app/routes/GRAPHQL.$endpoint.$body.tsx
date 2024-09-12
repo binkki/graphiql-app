@@ -2,12 +2,8 @@ import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { decodeBase64 } from "~/utils/encode";
 import { getIntrospectionQuery } from "graphql";
-import showToast from "~/utils/toast";
+import { i18nCookie } from "~/cookie";
 import { useTranslation } from "react-i18next";
-type LoaderData = {
-  jsonResponse: unknown;
-  sdlDocs: string | null;
-};
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const endpoint = decodeBase64(params.endpoint || "");
@@ -21,6 +17,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   );
   const sdlEncoded = url.searchParams.get("sdl");
   const sdlEndpointDiff = sdlEncoded ? decodeBase64(sdlEncoded) : "";
+  const cookieHeader = request.headers.get("Cookie");
+  const locale = (await i18nCookie.parse(cookieHeader)) || "en";
 
   try {
     const response = await fetch(endpoint, {
@@ -51,20 +49,22 @@ export const loader: LoaderFunction = async ({ params, request }) => {
         sdlDocs = await sdlResponse.json();
       }
     }
-    return json<LoaderData>({ jsonResponse, sdlDocs });
+    return json({ jsonResponse, sdlDocs, locale });
   } catch (err) {
-    if (err instanceof Error) showToast(err.message, true);
+    return json({ err, locale });
   }
 };
 
 export default function GraphiQLResponse() {
-  const { jsonResponse, sdlDocs } = useLoaderData<LoaderData>();
+  const { jsonResponse, sdlDocs, err } = useLoaderData<typeof loader>();
   const { t } = useTranslation();
 
   return (
     <div>
       <h1>{t("GraphQLResponse")}</h1>
-      <pre>{JSON.stringify(jsonResponse, null, 2)}</pre>
+      <pre>
+        {jsonResponse ? JSON.stringify(jsonResponse, null, 2) : err.message}
+      </pre>
       {sdlDocs && (
         <div>
           <h2>{t("sdlDocs")}</h2>
