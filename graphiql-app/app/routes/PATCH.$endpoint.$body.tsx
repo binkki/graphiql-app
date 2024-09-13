@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EndpointUrl from "~/components/Client/RestfulClient/EndpointUrl";
 import MethodSelector from "~/components/Client/RestfulClient/MethodSelector";
 import { defaultHeaders, restMethods } from "~/utils/constants";
 import CodeEditor from "~/components/Client/CodeEditor";
 import {
+  decodeUrlFromBase64,
   generateRestfulUrl,
   isMethodBody,
   saveToLocalStorage,
@@ -11,9 +12,18 @@ import {
   validateLink,
 } from "~/utils/utils";
 import RequestHeaders from "~/components/Client/RestfulClient/RequestHeaders";
-import { RequestBody, RequestHeader } from "~/types";
+import { LoaderData, RequestBody, RequestHeader } from "~/types";
 import EditedURL from "~/components/Client/RestfulClient/EditedUrl";
-import { useNavigate } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
+import { json, LoaderFunction } from "@remix-run/node";
+import { i18nCookie } from "~/cookie";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const cookieHeader = request.headers.get("Cookie");
+  const locale = (await i18nCookie.parse(cookieHeader)) || "en";
+  const url = request.url;
+  return json({ url, locale });
+};
 
 export default function Restful() {
   const [restfulResponse, setResponse] = useState("");
@@ -27,15 +37,30 @@ export default function Restful() {
   const [endpointUrl, setEndpointUrl] = useState("");
   const [requestBody, setRequestBody] = useState("");
   const [headers, setHeaders] = useState<RequestHeader[]>(defaultHeaders);
-
+  const loaderData = useLoaderData<LoaderData>();
   const navigate = useNavigate();
+
+  const [reload, setReload] = useState(false);
+
+  useEffect(() => {
+    sendRequest(false);
+  }, [reload]);
+
+  useEffect(() => {
+    const options = JSON.parse(decodeUrlFromBase64(loaderData.url));
+    setMethod(options.method);
+    setEndpointUrl(options.endpointUrl);
+    if (options.body !== "{}") setRequestBody(options.body);
+    setHeaders(options.headers);
+    setReload(!reload);
+  }, []);
 
   const validate = (
     endpointUrl: string,
     method: string,
     requestBody: string,
   ): boolean => {
-    if (method === "DEFAULT" || method === "") {
+    if (method === "DEFAULT") {
       setMethodError("Please choose request method");
       return false;
     }
@@ -94,7 +119,7 @@ export default function Restful() {
     setMethodError("");
   };
 
-  const sendRequest = async () => {
+  const sendRequest = async (isRedirect: boolean) => {
     resetErrors();
 
     const options = generateRequest(endpointUrl, method, requestBody);
@@ -110,7 +135,7 @@ export default function Restful() {
         if (response.ok) {
           return response.json();
         } else {
-          return;
+          throw new Error(responseStatus);
         }
       })
       .then((value) => {
@@ -121,8 +146,10 @@ export default function Restful() {
           requestBody,
           headers,
         );
-        saveToLocalStorage("restful", link);
-        navigate(link);
+        if (isRedirect) {
+          saveToLocalStorage("restful", link);
+          navigate(link);
+        }
       });
   };
 
@@ -135,6 +162,7 @@ export default function Restful() {
             id="restful-method"
             methods={restMethods}
             setMethod={setMethod}
+            value="PATCH"
           />
           {methodError && (
             <div className="text-base text-red-500 w-fit">{methodError}</div>
@@ -143,6 +171,7 @@ export default function Restful() {
             id="restful-url"
             placeholder="Endpoint URL"
             setEndpointUrl={setEndpointUrl}
+            value={endpointUrl}
           />
           {enspointError && (
             <div className="text-base text-red-500 w-fit">{enspointError}</div>
@@ -170,7 +199,7 @@ export default function Restful() {
       </div>
       <button
         className="inline-flex items-center bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
-        onClick={sendRequest}
+        onClick={() => sendRequest(true)}
       >
         Send request
       </button>

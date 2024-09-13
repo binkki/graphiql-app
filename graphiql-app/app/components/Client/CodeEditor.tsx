@@ -1,15 +1,9 @@
 import { useEffect, useRef } from "react";
 import loader from "@monaco-editor/loader";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
+import { CodeEditorProps } from "~/types";
 
-type CodeEditorProps = {
-  language: string;
-  readonly: boolean;
-  value: string;
-  id: string;
-};
-
-export default function CodeEditor(props: CodeEditorProps) {
+const CodeEditor = (props: CodeEditorProps) => {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
   const formatInput = () => {
@@ -41,23 +35,36 @@ export default function CodeEditor(props: CodeEditorProps) {
             });
         }, 1);
         if (monacoEditor) editorRef.current = monacoEditor;
+        monacoEditor.onDidBlurEditorWidget(() => {
+          if (props.setRequestBody)
+            props.setRequestBody(monacoEditor.getValue());
+        });
+      } else {
+        editorRef.current
+          ?.getModel()
+          ?.setValue(
+            props.value ? JSON.stringify(JSON.parse(props.value), null, 4) : "",
+          );
+        editorRef.current?.revealLine(1);
       }
     });
-  }, []);
+  }, [props.value]);
 
   return (
     <>
+      <div id={props.id} />
       <div>
         {!props.readonly && (
           <button
-            className="h-10 px-5 m-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+            className="inline-flex items-center bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
             onClick={formatInput}
           >
-            Format
+            Format body
           </button>
         )}
       </div>
-      <div id={props.id} />
     </>
   );
-}
+};
+
+export default CodeEditor;

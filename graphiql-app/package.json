@@ -15,8 +15,9 @@
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
     "@remix-run/node": "^2.11.2",
-    "@remix-run/react": "^2.11.2",
+    "@remix-run/react": "^2.12.0",
     "@remix-run/serve": "^2.11.2",
+    "cors": "^2.8.5",
     "firebase": "^10.13.0",
     "i18next": "^23.14.0",
     "i18next-browser-languagedetector": "^8.0.0",
@@ -27,12 +28,15 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^15.0.1",
-    "remix-i18next": "^6.3.0"
+    "remix-hook-form": "^5.0.4",
+    "remix-i18next": "^6.3.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@reduxjs/toolkit": "^2.2.7",
     "@remix-run/dev": "^2.11.2",
+    "@types/cors": "^2.8.17",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
@@ -49,7 +53,7 @@
     "husky": "^9.1.5",
     "postcss": "^8.4.38",
     "prettier": "^3.3.3",
-    "react-hook-form": "^7.52.2",
+    "react-hook-form": "^7.53.0",
     "sass": "^1.77.8",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.1.6",

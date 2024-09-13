@@ -50,6 +50,7 @@ module.exports = {
       },
       rules: {
         "react-hooks/exhaustive-deps": "off",
+        "react/display-name": "off",
       },
     },
 

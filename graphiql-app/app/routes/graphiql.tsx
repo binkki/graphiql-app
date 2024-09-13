@@ -1,7 +1,7 @@
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CodeEditor from "~/components/CodeEditor";
+import CodeEditor from "~/components/Client/CodeEditor";
 import { auth } from "~/firebase";
 
 const templateResponse = {
