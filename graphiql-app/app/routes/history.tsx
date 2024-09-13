@@ -37,13 +37,22 @@ export default function History() {
         <>
           {requests ? (
             <>
-              <h1>History</h1>
-              <div>
+              <h1 className="text-center text-2xl font-bold pt-12 mb-5">
+                History
+              </h1>
+              <div className="w-10/12 mx-auto">
                 <ul>
                   {requests.map((request, index) => (
-                    <li key={index}>
-                      <span>{request.method}</span>
-                      <Link to={request.url}>{request.url}</Link>
+                    <li className="mb-4" key={index}>
+                      <span className="text-xl font-bold mr-4 inline-block px-2 bg-gray-300 rounded">
+                        {request.method}
+                      </span>
+                      <Link
+                        className="break-all text-blue-900"
+                        to={request.url}
+                      >
+                        {request.url}
+                      </Link>
                     </li>
                   ))}
                 </ul>
