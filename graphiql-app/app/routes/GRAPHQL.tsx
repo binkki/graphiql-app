@@ -6,6 +6,7 @@ import CodeEditor from "~/components/CodeEditor";
 import { auth } from "~/firebase";
 import { buildGraphiQLUrl } from "~/utils/encode";
 import showToast from "../utils/toast";
+import { saveToLocalStorage } from "~/utils/localStorage";
 
 export default function Graphiql() {
   const { t } = useTranslation();
@@ -51,6 +52,7 @@ export default function Graphiql() {
     if (!endpoint) {
       showToast("Please enter an endpoint URL", true);
     } else {
+      saveToLocalStorage("GRAPHQL", graphiQLUrl);
       window.location.href = `${graphiQLUrl}`;
     }
   };
