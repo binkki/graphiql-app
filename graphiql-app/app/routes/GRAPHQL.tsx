@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import CodeEditor from "~/components/CodeEditor";
 import { auth } from "~/firebase";
 import { buildGraphiQLUrl } from "~/utils/encode";
+import showToast from "../utils/toast";
 
 export default function Graphiql() {
   const { t } = useTranslation();
@@ -47,7 +48,11 @@ export default function Graphiql() {
 
   const handleExecuteQuery = async () => {
     const { graphiQLUrl } = getValuesForURL();
-    window.location.href = `${graphiQLUrl}`;
+    if (!endpoint) {
+      showToast("Please enter an endpoint URL", true);
+    } else {
+      window.location.href = `${graphiQLUrl}`;
+    }
   };
 
   function getValuesForURL() {
