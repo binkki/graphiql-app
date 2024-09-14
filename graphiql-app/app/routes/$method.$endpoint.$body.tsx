@@ -159,7 +159,7 @@ export default function Restful() {
         }
       })
       .catch(() => {
-        navigate("/404");
+        return;
       });
   };
 
