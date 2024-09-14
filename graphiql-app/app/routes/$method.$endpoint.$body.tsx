@@ -15,7 +15,7 @@ import RequestHeaders from "~/components/Client/RestfulClient/RequestHeaders";
 import { LoaderData, RequestBody, RequestHeader } from "~/types";
 import EditedURL from "~/components/Client/RestfulClient/EditedUrl";
 import { useLoaderData, useNavigate } from "@remix-run/react";
-import { json, LoaderFunction } from "@remix-run/node";
+import { json, LoaderFunction, redirect } from "@remix-run/node";
 import { i18nCookie } from "~/cookie";
 import { useTranslation } from "react-i18next";
 
@@ -23,6 +23,8 @@ export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
   const locale = (await i18nCookie.parse(cookieHeader)) || "en";
   const url = request.url;
+  const method = url.split("/")[3];
+  if (restMethods.indexOf(method) === -1) return redirect("/404");
   return json({ url, locale });
 };
 
@@ -160,7 +162,7 @@ export default function Restful() {
             id="restful-method"
             methods={restMethods}
             setMethod={setMethod}
-            value="PATCH"
+            value={method.toUpperCase()}
           />
           {methodError && (
             <div className="text-base text-red-500 w-fit">{methodError}</div>
