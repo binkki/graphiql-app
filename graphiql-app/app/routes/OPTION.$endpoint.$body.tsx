@@ -17,6 +17,7 @@ import EditedURL from "~/components/Client/RestfulClient/EditedUrl";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import { json, LoaderFunction } from "@remix-run/node";
 import { i18nCookie } from "~/cookie";
+import { useTranslation } from "react-i18next";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
@@ -39,6 +40,7 @@ export default function Restful() {
   const [headers, setHeaders] = useState<RequestHeader[]>(defaultHeaders);
   const loaderData = useLoaderData<LoaderData>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [reload, setReload] = useState(false);
 
@@ -60,25 +62,25 @@ export default function Restful() {
     method: string,
     requestBody: string,
   ): boolean => {
-    if (method === "DEFAULT") {
-      setMethodError("Please choose request method");
+    if (method === "DEFAULT" || method === "") {
+      setMethodError(t("wrong-method"));
       return false;
     }
     if (!validateLink(endpointUrl)) {
-      setEndpointError("Please enter valid endpoint url");
+      setEndpointError(t("wrong-endpoint"));
       return false;
     }
     const isMethodHaveBody = !isMethodBody(method);
     if (isMethodHaveBody && requestBody) {
-      setBodyError("This type of request must not have body");
+      setBodyError(t("wrong-body-no"));
       return false;
     }
     if (!isMethodHaveBody && !requestBody) {
-      setBodyError("This type of request must have body");
+      setBodyError(t("wrong-body-yes"));
       return false;
     }
     if (!isMethodHaveBody && !validateBodyIsJson(requestBody)) {
-      setBodyError("Please enter valid json body");
+      setBodyError(t("wrong-body-content"));
       return false;
     }
     return true;
@@ -132,11 +134,7 @@ export default function Restful() {
       .then((response) => {
         const responseStatus = `${response.status}`;
         setStatus(responseStatus);
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error(responseStatus);
-        }
+        return response.json();
       })
       .then((value) => {
         setResponse(JSON.stringify(value));
@@ -156,13 +154,13 @@ export default function Restful() {
   return (
     <div className="flex flex-col items-center py-2.5 px-4 gap-2">
       <div>
-        <span className="block w-fit">Request</span>
+        <span className="block w-fit">{t("request")}</span>
         <div className="flex flex-col justify-start gap-2 py-2.5 px-4 border border-black  rounded-lg w-fit">
           <MethodSelector
             id="restful-method"
             methods={restMethods}
             setMethod={setMethod}
-            value="OPTIONS"
+            value="OPTION"
           />
           {methodError && (
             <div className="text-base text-red-500 w-fit">{methodError}</div>
@@ -201,13 +199,13 @@ export default function Restful() {
         className="inline-flex items-center bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
         onClick={() => sendRequest(true)}
       >
-        Send request
+        {t("request-send")}
       </button>
       <div>
-        <span>Response</span>
+        <span>{t("response")}</span>
         <div className="flex flex-col justify-start gap-2 py-2.5 px-4 border border-black rounded-lg w-fit hover:cursor-default">
           <div className="hover:cursor-default">
-            Response Status: {status.length ? status : "-"}
+            {t("response-status")}: {status.length ? status : "-"}
           </div>
           <CodeEditor
             language="json"

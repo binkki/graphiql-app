@@ -2,9 +2,11 @@ import { useEffect, useRef } from "react";
 import loader from "@monaco-editor/loader";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import { CodeEditorProps } from "~/types";
+import { useTranslation } from "react-i18next";
 
 const CodeEditor = (props: CodeEditorProps) => {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+  const { t } = useTranslation();
 
   const formatInput = () => {
     editorRef.current?.getAction("editor.action.formatDocument")?.run();
@@ -59,7 +61,7 @@ const CodeEditor = (props: CodeEditorProps) => {
             className="inline-flex items-center bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
             onClick={formatInput}
           >
-            Format body
+            {t("format")}
           </button>
         )}
       </div>

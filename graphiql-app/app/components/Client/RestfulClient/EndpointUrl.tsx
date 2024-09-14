@@ -1,8 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { EndpointUrlProps, FormField } from "~/types";
 
 const EndpointUrl = (props: EndpointUrlProps) => {
   const { register, handleSubmit } = useForm<FormField>();
+  const { t } = useTranslation();
 
   const changeUrl: SubmitHandler<FormField> = async (data) => {
     props.setEndpointUrl(data.value);
@@ -14,13 +16,13 @@ const EndpointUrl = (props: EndpointUrlProps) => {
       className="flex justify-start items-center gap-2"
     >
       <label htmlFor={props.id} className="block h-fit">
-        Endpoint URL
+        {t("endpoint-url")}
       </label>
       <input
         type="text"
         id={props.id}
         className="border border-gray-500 rounded-lg text-gray-600 text-base inline-block py-2.5 px-4 w-auto focus:bg-gray-400 focus:text-white focus:outline-none focus:cursor-text hover:cursor-text"
-        placeholder="Endpoint URL"
+        placeholder={t("endpoint-url")}
         defaultValue={props.value}
         {...register("value")}
       />

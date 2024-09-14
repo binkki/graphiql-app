@@ -1,8 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { FormField, MethodSelectorProps } from "~/types";
 
 const MethodSelector = (props: MethodSelectorProps) => {
   const { register, handleSubmit } = useForm<FormField>();
+  const { t } = useTranslation();
 
   const changeMethod: SubmitHandler<FormField> = async (data) => {
     props.setMethod(data.value === "DEFAULT" ? "" : data.value);
@@ -14,7 +16,7 @@ const MethodSelector = (props: MethodSelectorProps) => {
       className="flex justify-start items-center gap-2"
     >
       <label htmlFor={props.id} className="block h-fit">
-        Method
+        {t("method")}
       </label>
       <select
         id={props.id}
@@ -22,7 +24,7 @@ const MethodSelector = (props: MethodSelectorProps) => {
         defaultValue={props.value ?? "DEFAULT"}
         {...register("value")}
       >
-        <option value="DEFAULT">Choose method</option>
+        <option value="DEFAULT">{t("choose-method")}</option>
         {props.methods.map((x: string) => (
           <option key={x} value={x}>
             {x}

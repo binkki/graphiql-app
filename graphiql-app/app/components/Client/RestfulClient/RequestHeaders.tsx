@@ -2,9 +2,11 @@ import { useState } from "react";
 import { HeadersProps, RequestHeader } from "~/types";
 import HeaderItem from "./HeaderItem";
 import { defaultHeaders } from "~/utils/constants";
+import { useTranslation } from "react-i18next";
 
 const RequestHeaders = (props: HeadersProps) => {
   const [items, setItems] = useState<RequestHeader[]>([]);
+  const { t } = useTranslation();
 
   const createHeader = () => {
     setItems([
@@ -38,7 +40,7 @@ const RequestHeaders = (props: HeadersProps) => {
         className="inline-flex items-center bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
         onClick={createHeader}
       >
-        Create Header
+        {t("create-header")}
       </button>
       {items.length > 0 &&
         items.map((x: RequestHeader, index: number) => (

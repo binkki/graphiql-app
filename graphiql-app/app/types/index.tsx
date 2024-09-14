@@ -61,3 +61,10 @@ export type LoaderData = {
   url: string;
   locale: string;
 };
+
+export type RestfulClientProps = {
+  method: string;
+  endpointUrl: string;
+  body: string;
+  headers: RequestHeader[];
+};
