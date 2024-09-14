@@ -1,8 +1,8 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { decodeBase64 } from "~/utils/encode";
+import { decodeBase64 } from "../utils/encode";
 import { getIntrospectionQuery } from "graphql";
-import { i18nCookie } from "~/cookie";
+import { i18nCookie } from "../cookie";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
@@ -76,7 +76,11 @@ export default function GraphiQLResponse() {
     <div>
       <h1>{t("GraphQLResponse")}</h1>
       <pre className="w-10/12">
-        {jsonResponse ? JSON.stringify(jsonResponse, null, 2) : err.message}
+        {jsonResponse
+          ? JSON.stringify(jsonResponse, null, 2)
+          : err
+            ? err.message
+            : "An error occurred"}
       </pre>
       {sdlDocs && (
         <div>

@@ -206,9 +206,7 @@ export default function Graphiql() {
           </button>
           {showVariables.flag && (
             <div className="mb-4">
-              <label htmlFor="graphiql-variables-editor">
-                {t("variables")}
-              </label>
+              <div>{t("variables")}</div>
               <CodeEditor
                 language="json"
                 value={variables}
