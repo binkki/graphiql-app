@@ -4,7 +4,6 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import Index from "../../routes/_index";
 
-// Mock the necessary modules
 vi.mock("firebase/auth");
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
