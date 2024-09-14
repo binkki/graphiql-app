@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import {
   validateEmail,
   validatePassword,
-} from "~/components/DataHandling/DataHandling";
+} from "../components/DataHandling/DataHandling";
 import InputField from "../components/Input/Input";
 import { auth } from "../firebase";
 
