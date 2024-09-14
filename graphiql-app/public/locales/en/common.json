@@ -29,5 +29,5 @@
   "execute": "Execute",
   "GraphQLResponse": "GraphiQL Response",
   "sdlDocs": "SDL Documentation",
-  "page-not-found": "This page doesn't found"
+  "page-not-found": "This page isn't found"
 }
