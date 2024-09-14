@@ -1,19 +1,24 @@
-import { Outlet } from "@remix-run/react";
+import { Outlet, useParams, useSearchParams } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import CodeEditor from "~/components/CodeEditor";
 import { auth } from "~/firebase";
-import { buildGraphiQLUrl } from "~/utils/encode";
+import { buildGraphiQLUrl, decodeBase64 } from "~/utils/encode";
 import showToast from "../utils/toast";
 import { saveToLocalStorage } from "~/utils/localStorage";
 
 export default function Graphiql() {
+  const params = useParams();
+  const decodedBody = decodeBase64(params.body || "");
+  const [searchParams] = useSearchParams();
   const { t } = useTranslation();
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [endpoint, setEndpoint] = useState<string>("");
   const [headers, setHeaders] = useState<{ key: string; value: string }[]>([]);
-  const queryEditorRef = useRef<{ getValue: () => string } | null>(null);
+  const queryEditorRef = useRef<{
+    getValue: () => string;
+  } | null>(null);
   const variablesEditorRef = useRef<{ getValue: () => string } | null>(null);
   const [sdlEndpoint, setSdlEndpoint] = useState<string>("");
   const [showHeaders, setShowHeaders] = useState<{
@@ -25,6 +30,20 @@ export default function Graphiql() {
     text: string;
   }>({ flag: false, text: t("show_variables") });
 
+  let query = "query {}";
+  let variables = "{}";
+
+  try {
+    if (decodedBody) {
+      const parsedBody = JSON.parse(decodedBody);
+      query = parsedBody.query || "query {}";
+      variables = parsedBody.variables || "{}";
+    }
+  } catch {
+    query = "query {}";
+    variables = "{}";
+  }
+
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -34,6 +53,22 @@ export default function Graphiql() {
       }
     });
     return () => listen();
+  }, []);
+
+  useEffect(() => {
+    if (params.endpoint) {
+      const decodedEndpoint = decodeBase64(params.endpoint) || "";
+      setEndpoint(decodedEndpoint);
+    }
+    const headersArray = Array.from(searchParams.entries()).map(
+      ([key, value]) => ({
+        key,
+        value,
+      }),
+    );
+    setHeaders(headersArray);
+    const sdlEncoded = decodeBase64(searchParams.get("sdl") || "");
+    setSdlEndpoint(sdlEncoded);
   }, []);
 
   const handleHeaderChange = (index: number, key: string, value: string) => {
@@ -160,7 +195,7 @@ export default function Graphiql() {
 
           <CodeEditor
             language="graphql"
-            value=""
+            value={query}
             ref={queryEditorRef}
             readonly={false}
             id="graphiql-request-editor"
@@ -176,7 +211,7 @@ export default function Graphiql() {
               </label>
               <CodeEditor
                 language="json"
-                value="{}"
+                value={variables}
                 readonly={false}
                 id="graphiql-variables-editor"
                 ref={variablesEditorRef}
