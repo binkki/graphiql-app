@@ -1,0 +1,54 @@
+{
+  "result": [
+    {
+      "scriptId": "995",
+      "url": "file:///D:/Work/RSSchool/React/finalTask/graphiql-app/graphiql-app/app/test/vitest.setup.ts",
+      "functions": [
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 0, "endOffset": 1348, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 13, "endOffset": 1348, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 606, "endOffset": 650, "count": 0 }],
+          "isBlockCoverage": false
+        }
+      ]
+    },
+    {
+      "scriptId": "1583",
+      "url": "file:///D:/Work/RSSchool/React/finalTask/graphiql-app/graphiql-app/app/test/app/components/header.test.tsx",
+      "functions": [
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 0, "endOffset": 7854, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [
+            { "startOffset": 13, "endOffset": 7854, "count": 1 },
+            { "startOffset": 1040, "endOffset": 7853, "count": 0 }
+          ],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 401, "endOffset": 529, "count": 0 }],
+          "isBlockCoverage": false
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 1066, "endOffset": 3728, "count": 0 }],
+          "isBlockCoverage": false
+        }
+      ]
+    }
+  ]
+}
