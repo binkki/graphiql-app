@@ -2,11 +2,11 @@ import { Outlet, useParams, useSearchParams } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import CodeEditor from "~/components/CodeEditor";
-import { auth } from "~/firebase";
-import { buildGraphiQLUrl, decodeBase64 } from "~/utils/encode";
+import CodeEditor from "../components/CodeEditor";
+import { auth } from "../firebase";
+import { buildGraphiQLUrl, decodeBase64 } from "../utils/encode";
 import showToast from "../utils/toast";
-import { saveToLocalStorage } from "~/utils/localStorage";
+import { saveToLocalStorage } from "../utils/localStorage";
 
 export default function Graphiql() {
   const params = useParams();
