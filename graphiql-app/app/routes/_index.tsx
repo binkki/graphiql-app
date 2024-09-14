@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { auth } from "~/firebase";
+import { auth } from "../firebase";
 
 export const meta: MetaFunction = () => {
   return [
