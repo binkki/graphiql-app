@@ -28,5 +28,6 @@
   "variables": "Variables:",
   "execute": "Execute",
   "GraphQLResponse": "GraphiQL Response",
-  "sdlDocs": "SDL Documentation"
+  "sdlDocs": "SDL Documentation",
+  "page-not-found": "This page doesn't found"
 }
