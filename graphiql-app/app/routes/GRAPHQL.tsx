@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import CodeEditor from "~/components/CodeEditor";
 import { auth } from "~/firebase";
 import { buildGraphiQLUrl } from "~/utils/encode";
-import showToast from "~/utils/toast";
+import showToast from "../utils/toast";
 
 export default function Graphiql() {
   const { t } = useTranslation();
@@ -47,24 +47,11 @@ export default function Graphiql() {
   };
 
   const handleExecuteQuery = async () => {
-    const { query, variables, headersForQuery, graphiQLUrl } =
-      getValuesForURL();
-    try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { ...headersForQuery },
-        body: JSON.stringify({
-          query,
-          variables: variables ? JSON.parse(variables) : undefined,
-        }),
-      });
-      if (res.ok) {
-        window.location.href = `${graphiQLUrl}`;
-      } else {
-        showToast(t("error_incorrectURL"), true);
-      }
-    } catch (err) {
-      if (err instanceof Error) showToast(err.message, true);
+    const { graphiQLUrl } = getValuesForURL();
+    if (!endpoint) {
+      showToast("Please enter an endpoint URL", true);
+    } else {
+      window.location.href = `${graphiQLUrl}`;
     }
   };
 
