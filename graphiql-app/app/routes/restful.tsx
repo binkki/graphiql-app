@@ -14,6 +14,7 @@ import RequestHeaders from "~/components/Client/RestfulClient/RequestHeaders";
 import { RequestBody, RequestHeader } from "~/types";
 import EditedURL from "~/components/Client/RestfulClient/EditedUrl";
 import { useNavigate } from "@remix-run/react";
+import { useTranslation } from "react-i18next";
 
 export default function Restful() {
   const [restfulResponse, setResponse] = useState("");
@@ -27,6 +28,7 @@ export default function Restful() {
   const [endpointUrl, setEndpointUrl] = useState("");
   const [requestBody, setRequestBody] = useState("");
   const [headers, setHeaders] = useState<RequestHeader[]>(defaultHeaders);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -44,13 +46,15 @@ export default function Restful() {
       return false;
     }
     const isMethodHaveBody = !isMethodBody(method);
-    if (isMethodHaveBody && requestBody) {
-      setBodyError("This type of request must not have body");
-      return false;
-    }
-    if (!isMethodHaveBody && !requestBody) {
-      setBodyError("This type of request must have body");
-      return false;
+    if (method !== "DELETE") {
+      if (isMethodHaveBody && requestBody) {
+        setBodyError(t("wrong-body-no"));
+        return false;
+      }
+      if (!isMethodHaveBody && !requestBody) {
+        setBodyError(t("wrong-body-yes"));
+        return false;
+      }
     }
     if (!isMethodHaveBody && !validateBodyIsJson(requestBody)) {
       setBodyError("Please enter valid json body");

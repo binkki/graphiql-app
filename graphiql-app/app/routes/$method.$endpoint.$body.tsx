@@ -73,13 +73,15 @@ export default function Restful() {
       return false;
     }
     const isMethodHaveBody = !isMethodBody(method);
-    if (isMethodHaveBody && requestBody) {
-      setBodyError(t("wrong-body-no"));
-      return false;
-    }
-    if (!isMethodHaveBody && !requestBody) {
-      setBodyError(t("wrong-body-yes"));
-      return false;
+    if (method !== "DELETE") {
+      if (isMethodHaveBody && requestBody) {
+        setBodyError(t("wrong-body-no"));
+        return false;
+      }
+      if (!isMethodHaveBody && !requestBody) {
+        setBodyError(t("wrong-body-yes"));
+        return false;
+      }
     }
     if (!isMethodHaveBody && !validateBodyIsJson(requestBody)) {
       setBodyError(t("wrong-body-content"));
