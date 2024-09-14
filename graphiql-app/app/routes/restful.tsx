@@ -13,7 +13,7 @@ import {
 import RequestHeaders from "~/components/Client/RestfulClient/RequestHeaders";
 import { RequestBody, RequestHeader } from "~/types";
 import EditedURL from "~/components/Client/RestfulClient/EditedUrl";
-import { redirect, useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 
 export default function Restful() {

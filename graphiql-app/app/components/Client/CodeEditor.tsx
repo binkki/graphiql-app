@@ -51,7 +51,9 @@ const CodeEditor = (props: CodeEditorProps) => {
                 : "",
             );
           editorRef.current?.revealLine(1);
-        } catch {}
+        } catch {
+          return;
+        }
       }
     });
   }, [props.value]);
