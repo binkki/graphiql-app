@@ -42,12 +42,16 @@ const CodeEditor = (props: CodeEditorProps) => {
             props.setRequestBody(monacoEditor.getValue());
         });
       } else {
-        editorRef.current
-          ?.getModel()
-          ?.setValue(
-            props.value ? JSON.stringify(JSON.parse(props.value), null, 4) : "",
-          );
-        editorRef.current?.revealLine(1);
+        try {
+          editorRef.current
+            ?.getModel()
+            ?.setValue(
+              props.value
+                ? JSON.stringify(JSON.parse(props.value), null, 4)
+                : "",
+            );
+          editorRef.current?.revealLine(1);
+        } catch {}
       }
     });
   }, [props.value]);

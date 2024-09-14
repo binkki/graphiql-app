@@ -82,10 +82,15 @@ export default function Restful() {
         setBodyError(t("wrong-body-yes"));
         return false;
       }
-    }
-    if (!isMethodHaveBody && !validateBodyIsJson(requestBody)) {
-      setBodyError(t("wrong-body-content"));
-      return false;
+      if (!isMethodHaveBody && !validateBodyIsJson(requestBody)) {
+        setBodyError(t("wrong-body-content"));
+        return false;
+      }
+    } else {
+      if (requestBody.length > 0 && !validateBodyIsJson(requestBody)) {
+        setBodyError(t("wrong-body-content"));
+        return false;
+      }
     }
     return true;
   };
@@ -138,10 +143,10 @@ export default function Restful() {
       .then((response) => {
         const responseStatus = `${response.status}`;
         setStatus(responseStatus);
-        return response.json();
+        return response.text();
       })
       .then((value) => {
-        setResponse(JSON.stringify(value));
+        setResponse(value);
         const link = generateRestfulUrl(
           method,
           endpointUrl,
@@ -152,6 +157,9 @@ export default function Restful() {
           saveToLocalStorage("restful", link);
           navigate(link);
         }
+      })
+      .catch(() => {
+        navigate("/404");
       });
   };
 

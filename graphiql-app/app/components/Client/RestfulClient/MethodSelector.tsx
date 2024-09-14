@@ -14,7 +14,9 @@ const MethodSelector = (props: MethodSelectorProps) => {
   };
 
   useEffect(() => {
-    if (props.value && props.methods.indexOf(props.value) !== -1) {
+    if (props.value === "") {
+      setDefaultMethod("DEFAULT");
+    } else if (props.value && props.methods.indexOf(props.value) !== -1) {
       setDefaultMethod(props.value);
     }
   }, [props.value]);
@@ -30,7 +32,7 @@ const MethodSelector = (props: MethodSelectorProps) => {
       <select
         id={props.id}
         className="border border-gray-500 rounded-lg text-gray-600 text-base py-2.5 px-4 w-fit focus:bg-gray-400 focus:text-white focus:outline-none focus:cursor-pointer hover:cursor-pointer"
-        value={defaultMethod ?? "DEFAULT"}
+        value={defaultMethod}
         {...register("value")}
       >
         <option value="DEFAULT">{t("choose-method")}</option>

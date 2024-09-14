@@ -13,7 +13,7 @@ import {
 import RequestHeaders from "~/components/Client/RestfulClient/RequestHeaders";
 import { RequestBody, RequestHeader } from "~/types";
 import EditedURL from "~/components/Client/RestfulClient/EditedUrl";
-import { useNavigate } from "@remix-run/react";
+import { redirect, useNavigate } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 
 export default function Restful() {
@@ -38,11 +38,11 @@ export default function Restful() {
     requestBody: string,
   ): boolean => {
     if (method === "DEFAULT" || method === "") {
-      setMethodError("Please choose request method");
+      setMethodError(t("wrong-method"));
       return false;
     }
     if (!validateLink(endpointUrl)) {
-      setEndpointError("Please enter valid endpoint url");
+      setEndpointError(t("wrong-endpoint"));
       return false;
     }
     const isMethodHaveBody = !isMethodBody(method);
@@ -55,10 +55,15 @@ export default function Restful() {
         setBodyError(t("wrong-body-yes"));
         return false;
       }
-    }
-    if (!isMethodHaveBody && !validateBodyIsJson(requestBody)) {
-      setBodyError("Please enter valid json body");
-      return false;
+      if (!isMethodHaveBody && !validateBodyIsJson(requestBody)) {
+        setBodyError(t("wrong-body-content"));
+        return false;
+      }
+    } else {
+      if (requestBody.length > 0 && !validateBodyIsJson(requestBody)) {
+        setBodyError(t("wrong-body-content"));
+        return false;
+      }
     }
     return true;
   };
@@ -111,11 +116,7 @@ export default function Restful() {
       .then((response) => {
         const responseStatus = `${response.status}`;
         setStatus(responseStatus);
-        if (response.ok) {
-          return response.json();
-        } else {
-          return;
-        }
+        return response.text();
       })
       .then((value) => {
         setResponse(JSON.stringify(value));
@@ -127,6 +128,9 @@ export default function Restful() {
         );
         saveToLocalStorage("restful", link);
         navigate(link);
+      })
+      .catch(() => {
+        navigate("/404");
       });
   };
 
@@ -139,6 +143,7 @@ export default function Restful() {
             id="restful-method"
             methods={restMethods}
             setMethod={setMethod}
+            value={method}
           />
           {methodError && (
             <div className="text-base text-red-500 w-fit">{methodError}</div>
