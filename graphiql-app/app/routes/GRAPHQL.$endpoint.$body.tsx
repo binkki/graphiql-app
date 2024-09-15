@@ -5,7 +5,7 @@ import { getIntrospectionQuery } from "graphql";
 import { i18nCookie } from "../cookie";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import ResponseSection from "~/components/Client/ResponseSection";
+import ResponseSection from "../components/Client/ResponseSection";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const endpoint = decodeBase64(params.endpoint || "");
