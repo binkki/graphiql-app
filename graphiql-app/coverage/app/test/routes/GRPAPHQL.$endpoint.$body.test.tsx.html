@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -220,7 +220,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -329,76 +328,77 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useLoaderData } from "@remix-run/react";
-import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, Mock, vi } from "vitest";
-import { i18nCookie } from "../../cookie";
-import GraphiQLResponse, { loader } from "../../routes/GRAPHQL.$endpoint.$body";
-import { decodeBase64 } from "../../utils/encode";
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// import { useLoaderData } from "@remix-run/react";
+// import { fireEvent, render, screen } from "@testing-library/react";
+import { expect, it } from "vitest";
+// import { i18nCookie } from "../../cookie";
+// import GraphiQLResponse, { loader } from "../../routes/GRAPHQL.$endpoint.$body";
+// import { decodeBase64 } from "../../utils/encode";
 &nbsp;
-vi.mock("@remix-run/react", () =&gt; ({
-  useLoaderData: vi.fn(),
-  useNavigate: vi.fn(),
-}));
+// vi.mock("@remix-run/react", () =&gt; ({
+//   useLoaderData: vi.fn(),
+//   useNavigate: vi.fn(),
+// }));
 &nbsp;
-vi.mock("../../utils/encode", () =&gt; ({
-  decodeBase64: vi.fn(),
-}));
+// vi.mock("../../utils/encode", () =&gt; ({
+//   decodeBase64: vi.fn(),
+// }));
 &nbsp;
-vi.mock("../../cookie", () =&gt; ({
-  i18nCookie: {
-    parse: vi.fn(),
-  },
-}));
+// vi.mock("../../cookie", () =&gt; ({
+//   i18nCookie: {
+//     parse: vi.fn(),
+//   },
+// }));
 &nbsp;
-global.fetch = vi.fn();
+// global.fetch = vi.fn();
 &nbsp;
 // describe("GraphiQLResponse component", () =&gt; {
-  // it("should display jsonResponse correctly", () =&gt; {
-  //   (useLoaderData as Mock).mockReturnValue({
-  //     jsonResponse: { data: "test data" },
-  //     sdlDocs: null,
-  //     err: null,
-  //   });
+// it("should display jsonResponse correctly", () =&gt; {
+//   (useLoaderData as Mock).mockReturnValue({
+//     jsonResponse: { data: "test data" },
+//     sdlDocs: null,
+//     err: null,
+//   });
 &nbsp;
-  //   render(&lt;GraphiQLResponse /&gt;);
+//   render(&lt;GraphiQLResponse /&gt;);
 &nbsp;
-  //   expect(screen.getByText(/GraphQLResponse/i)).toBeInTheDocument();
-  //   expect(screen.getByText(/"data": "test data"/i)).toBeInTheDocument();
-  // });
+//   expect(screen.getByText(/GraphQLResponse/i)).toBeInTheDocument();
+//   expect(screen.getByText(/"data": "test data"/i)).toBeInTheDocument();
+// });
 &nbsp;
-  // it("should toggle documentation visibility", () =&gt; {
-  //   (useLoaderData as Mock).mockReturnValue({
-  //     jsonResponse: null,
-  //     sdlDocs: { sdl: "test sdl" },
-  //     err: null,
-  //   });
+// it("should toggle documentation visibility", () =&gt; {
+//   (useLoaderData as Mock).mockReturnValue({
+//     jsonResponse: null,
+//     sdlDocs: { sdl: "test sdl" },
+//     err: null,
+//   });
 &nbsp;
-  //   render(&lt;GraphiQLResponse /&gt;);
+//   render(&lt;GraphiQLResponse /&gt;);
 &nbsp;
-  //   expect(screen.queryByText(/Hide Docs/i)).toBeNull();
+//   expect(screen.queryByText(/Hide Docs/i)).toBeNull();
 &nbsp;
-  //   fireEvent.click(screen.getByText(/Show Docs/i));
+//   fireEvent.click(screen.getByText(/Show Docs/i));
 &nbsp;
-  //   expect(screen.getByText(/Hide Docs/i)).toBeInTheDocument();
-  //   expect(screen.getByText(/"sdl": "test sdl"/i)).toBeInTheDocument();
-  // });
+//   expect(screen.getByText(/Hide Docs/i)).toBeInTheDocument();
+//   expect(screen.getByText(/"sdl": "test sdl"/i)).toBeInTheDocument();
+// });
 &nbsp;
-  // it("should display error message if available", () =&gt; {
-  //   (useLoaderData as Mock).mockReturnValue({
-  //     jsonResponse: null,
-  //     sdlDocs: null,
-  //     err: { message: "An error occurred" },
-  //   });
+// it("should display error message if available", () =&gt; {
+//   (useLoaderData as Mock).mockReturnValue({
+//     jsonResponse: null,
+//     sdlDocs: null,
+//     err: { message: "An error occurred" },
+//   });
 &nbsp;
-  //   render(&lt;GraphiQLResponse /&gt;);
+//   render(&lt;GraphiQLResponse /&gt;);
 &nbsp;
-  //   expect(screen.getByText("An error occurred")).toBeInTheDocument();
-  // });
+//   expect(screen.getByText("An error occurred")).toBeInTheDocument();
+// });
 // });
 &nbsp;
 // describe("loader function", () =&gt; {
@@ -437,31 +437,31 @@ global.fetch = vi.fn();
 //     }
 //   });
 &nbsp;
-  // it("should return error message on failure", async () =&gt; {
-  //   (decodeBase64 as Mock)
-  //     .mockReturnValueOnce("https://test-endpoint.com")
-  //     .mockReturnValueOnce(
-  //       JSON.stringify({ query: "{ test }", variables: {} }),
-  //     );
-  //   (i18nCookie.parse as Mock).mockResolvedValue("en");
+// it("should return error message on failure", async () =&gt; {
+//   (decodeBase64 as Mock)
+//     .mockReturnValueOnce("https://test-endpoint.com")
+//     .mockReturnValueOnce(
+//       JSON.stringify({ query: "{ test }", variables: {} }),
+//     );
+//   (i18nCookie.parse as Mock).mockResolvedValue("en");
 &nbsp;
-  //   (fetch as Mock).mockRejectedValueOnce(new Error("Fetch failed"));
+//   (fetch as Mock).mockRejectedValueOnce(new Error("Fetch failed"));
 &nbsp;
-  //   const params = { endpoint: "mockEndpoint", body: "mockBody" };
-  //   const context = {};
-  //   const result = await loader({ params, request, context });
+//   const params = { endpoint: "mockEndpoint", body: "mockBody" };
+//   const context = {};
+//   const result = await loader({ params, request, context });
 &nbsp;
-  //   if (result instanceof Response) {
-  //     const parsedResult = await result.json();
+//   if (result instanceof Response) {
+//     const parsedResult = await result.json();
 &nbsp;
-  //     expect(parsedResult).toEqual({
-  //       err: { message: "Fetch failed" },
-  //       locale: "en",
-  //     });
-  //   } else {
-  //     throw new Error("Expected result to be a Response object");
-  //   }
-  // });
+//     expect(parsedResult).toEqual({
+//       err: { message: "Fetch failed" },
+//       locale: "en",
+//     });
+//   } else {
+//     throw new Error("Expected result to be a Response object");
+//   }
+// });
 // });
 &nbsp;
 it("should be true", () =&gt; {
@@ -475,7 +475,7 @@ it("should be true", () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-09-15T21:40:24.714Z
+                at 2024-09-15T22:32:44.838Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
