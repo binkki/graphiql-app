@@ -24,17 +24,6 @@ export const validateBodyIsJson = (body: string): boolean => {
   }
 };
 
-export const saveToLocalStorage = (key: string, value: string) => {
-  const requests = localStorage.getItem(key);
-  if (!requests) {
-    localStorage.setItem(key, JSON.stringify([value]));
-  } else {
-    const data = JSON.parse(requests);
-    data.push(value);
-    localStorage.setItem(key, JSON.stringify(data));
-  }
-};
-
 export const encodeToBase64 = (value: string): string => btoa(value);
 
 export const decodeFromBase64 = (value: string): string => {

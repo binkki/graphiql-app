@@ -7,11 +7,7 @@ import {
   restMethods,
 } from "~/utils/constants";
 import CodeEditor from "~/components/Client/CodeEditor";
-import {
-  generateRequest,
-  generateRestfulUrl,
-  saveToLocalStorage,
-} from "~/utils/utils";
+import { generateRequest, generateRestfulUrl } from "~/utils/utils";
 import RequestHeaders from "~/components/Client/RestfulClient/RequestHeaders";
 import EditedURL from "~/components/Client/RestfulClient/EditedUrl";
 import { useTranslation } from "react-i18next";
@@ -23,6 +19,7 @@ import {
 } from "~/types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "@remix-run/react";
+import { saveToLocalStorage } from "~/utils/localStorage";
 
 export default function RestfulClient(props: RestfulClientProps) {
   const { t } = useTranslation();
@@ -98,7 +95,7 @@ export default function RestfulClient(props: RestfulClientProps) {
           body: value,
         });
         const link = generateRestfulUrl(restfulRequest);
-        saveToLocalStorage("restful", link);
+        saveToLocalStorage("REST", link);
         navigate(link);
       })
       .catch(() => {
