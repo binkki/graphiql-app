@@ -3,6 +3,7 @@ import { Link } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import DevInfo from "~/components/devInfo";
 import { auth } from "~/firebase";
 
 export const meta: MetaFunction = () => {
@@ -57,6 +58,7 @@ export default function Index() {
               </li>
             </ul>
           </div>
+          <DevInfo />
         </>
       ) : (
         <>
@@ -82,6 +84,7 @@ export default function Index() {
               </Link>
             </div>
           </div>
+          <DevInfo />
         </>
       )}
     </>
