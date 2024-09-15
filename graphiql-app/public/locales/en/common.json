@@ -36,4 +36,17 @@
   "wrong-body-no": "This type of request must not have body",
   "wrong-body-yes": "This type of request must have body",
   "wrong-body-content": "Please enter valid json body"
+  "show_headers": "Show Headers ↓",
+  "hide_headers": "Hide Headers ↑",
+  "show_variables": "Show Variables ↓",
+  "hide_variables": "Hide Variables ↑",
+  "error_incorrectURL": "Incorrect URL or query. Please check.",
+  "EndpointURL": "Endpoint URL:",
+  "sdlEndpointURL": "SDL Endpoint URL:",
+  "add_header": "Add a header",
+  "variables": "Variables:",
+  "execute": "Execute",
+  "GraphQLResponse": "GraphiQL Response",
+  "sdlDocs": "SDL Documentation",
+  "page-not-found": "This page isn't found"
 }
