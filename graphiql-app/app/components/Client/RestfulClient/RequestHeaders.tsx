@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { HeadersProps, RequestHeader } from "~/types";
+import { ClientProps, RequestHeader } from "~/types";
 import HeaderItem from "./HeaderItem";
 import { defaultHeaders } from "~/utils/constants";
 import { useTranslation } from "react-i18next";
 
-const RequestHeaders = (props: HeadersProps) => {
+const RequestHeaders = (props: ClientProps) => {
   const [items, setItems] = useState<RequestHeader[]>([]);
   const { t } = useTranslation();
 
@@ -22,16 +22,22 @@ const RequestHeaders = (props: HeadersProps) => {
     const newItems = items;
     newItems[index].key = key;
     newItems[index].value = value;
-    setItems(newItems);
-    props.setHeader([...defaultHeaders, ...newItems]);
+    setHeader(newItems);
   };
 
   const deleteHeader = (index: number) => {
     const newItems = items.filter(
       (x: RequestHeader) => items.indexOf(x) !== index,
     );
+    setHeader(newItems);
+  };
+
+  const setHeader = (newItems: RequestHeader[]) => {
     setItems(newItems);
-    props.setHeader([...defaultHeaders, ...newItems]);
+    props.setRequest({
+      ...props.request,
+      headers: [...defaultHeaders, ...newItems],
+    });
   };
 
   return (

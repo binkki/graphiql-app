@@ -1,38 +1,19 @@
-import { Dispatch, InputHTMLAttributes, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 
-export interface EndpointUrlProps
-  extends InputHTMLAttributes<HTMLInputElement> {
+export interface ClientProps {
   id: string;
-  setEndpointUrl: Dispatch<SetStateAction<string>>;
+  request: RestfulRequestProps;
+  setRequest: Dispatch<SetStateAction<RestfulRequestProps>>;
+  methods?: string[];
+  language?: string;
+  readonly?: boolean;
   value?: string;
-}
-
-export interface MethodSelectorProps
-  extends InputHTMLAttributes<HTMLSelectElement> {
-  id: string;
-  methods: string[];
-  setMethod: Dispatch<SetStateAction<string>>;
-  value?: string;
-}
-
-export interface HeadersProps {
-  id: string;
-  headers: RequestHeader[];
-  setHeader: Dispatch<SetStateAction<RequestHeader[]>>;
 }
 
 export type RequestHeader = {
   key: string;
   value: string;
 };
-
-export interface CodeEditorProps {
-  language: string;
-  readonly: boolean;
-  value: string;
-  id: string;
-  setRequestBody?: Dispatch<SetStateAction<string>>;
-}
 
 export type RequestBody = {
   method: string;
@@ -57,14 +38,25 @@ export type EditedUrlProps = {
   url: string;
 };
 
-export type LoaderData = {
-  url: string;
-  locale: string;
+export type RestfulResponseProps = {
+  status: string;
+  body: string;
+};
+
+export type RestfulRequestProps = {
+  method: string;
+  endpointUrl: string;
+  headers: RequestHeader[];
+  body: string;
+};
+
+export type RestfulClientErrors = {
+  methodError: string;
+  endpointUrlError: string;
+  bodyError: string;
 };
 
 export type RestfulClientProps = {
-  method: string;
-  endpointUrl: string;
-  body: string;
-  headers: RequestHeader[];
+  restfulRequest?: RestfulRequestProps;
+  restfulResponse?: RestfulResponseProps;
 };

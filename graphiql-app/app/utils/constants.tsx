@@ -33,3 +33,21 @@ export const defaultHeaders1 = [
     value: restMethods.join(","),
   },
 ];
+
+export const defaultRestfulErrorsState = {
+  methodError: "",
+  endpointUrlError: "",
+  bodyError: "",
+};
+
+export const defaultRestfulRequestState = {
+  method: "",
+  endpointUrl: "",
+  headers: defaultHeaders,
+  body: "",
+};
+
+export const defaultRestfulResponseState = {
+  status: "",
+  body: "",
+};

@@ -1,25 +1,32 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FormField, MethodSelectorProps } from "~/types";
+import { ClientProps, FormField } from "~/types";
 
-const MethodSelector = (props: MethodSelectorProps) => {
+const MethodSelector = (props: ClientProps) => {
   const { register, handleSubmit } = useForm<FormField>();
   const { t } = useTranslation();
 
   const [defaultMethod, setDefaultMethod] = useState("DEFAULT");
 
   const changeMethod: SubmitHandler<FormField> = async (data) => {
-    props.setMethod(data.value === "DEFAULT" ? "" : data.value);
+    props.setRequest({
+      ...props.request,
+      method: data.value === "DEFAULT" ? "" : data.value,
+    });
   };
 
   useEffect(() => {
-    if (props.value === "") {
+    if (props.request.method === "") {
       setDefaultMethod("DEFAULT");
-    } else if (props.value && props.methods.indexOf(props.value) !== -1) {
-      setDefaultMethod(props.value);
+    } else if (
+      props.request.method &&
+      props.methods &&
+      props.methods.indexOf(props.request.method) !== -1
+    ) {
+      setDefaultMethod(props.request.method);
     }
-  }, [props.value]);
+  }, [props.request.method]);
 
   return (
     <form
@@ -36,11 +43,12 @@ const MethodSelector = (props: MethodSelectorProps) => {
         {...register("value")}
       >
         <option value="DEFAULT">{t("choose-method")}</option>
-        {props.methods.map((x: string) => (
-          <option key={x} value={x}>
-            {x}
-          </option>
-        ))}
+        {props.methods &&
+          props.methods.map((x: string) => (
+            <option key={x} value={x}>
+              {x}
+            </option>
+          ))}
       </select>
     </form>
   );

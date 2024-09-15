@@ -1,13 +1,16 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { EndpointUrlProps, FormField } from "~/types";
+import { ClientProps, FormField } from "~/types";
 
-const EndpointUrl = (props: EndpointUrlProps) => {
+const EndpointUrl = (props: ClientProps) => {
   const { register, handleSubmit } = useForm<FormField>();
   const { t } = useTranslation();
 
   const changeUrl: SubmitHandler<FormField> = async (data) => {
-    props.setEndpointUrl(data.value);
+    props.setRequest({
+      ...props.request,
+      endpointUrl: data.value,
+    });
   };
 
   return (
@@ -23,7 +26,7 @@ const EndpointUrl = (props: EndpointUrlProps) => {
         id={props.id}
         className="border border-gray-500 rounded-lg text-gray-600 text-base inline-block py-2.5 px-4 w-auto focus:bg-gray-400 focus:text-white focus:outline-none focus:cursor-text hover:cursor-text"
         placeholder={t("endpoint-url")}
-        defaultValue={props.value}
+        defaultValue={props.request.endpointUrl}
         {...register("value")}
       />
     </form>

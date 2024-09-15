@@ -1,5 +1,11 @@
-import { RequestHeader } from "~/types";
-import { linkRegexPattern } from "./constants";
+import {
+  RequestBody,
+  RequestHeader,
+  RestfulClientErrors,
+  RestfulRequestProps,
+} from "~/types";
+import { defaultRestfulErrorsState, linkRegexPattern } from "./constants";
+import { t } from "i18next";
 
 export const isMethodBody = (method: string): boolean => {
   return ["GET", "CONNECT", "OPTIONS", "TRACE", "HEAD"].indexOf(method) === -1;
@@ -65,39 +71,105 @@ export const decodeUrlFromBase64 = (value: string): string => {
   return JSON.stringify(result);
 };
 
-export const generateRestfulUrl = (
-  method: string,
-  url: string,
-  body: string,
-  headers: RequestHeader[],
-): string => {
+export const generateRestfulUrl = (request: RestfulRequestProps): string => {
   if (
-    method.length === 0 &&
-    url.length === 0 &&
-    body.length === 0 &&
-    headers.length < 2
+    request.method.length === 0 &&
+    request.endpointUrl.length === 0 &&
+    request.body.length === 0 &&
+    request.headers.length < 2
   )
     return "";
   let newUrl = "";
-  if (method) {
-    newUrl = `/${method}/`;
+  if (request.method) {
+    newUrl = `/${request.method}/`;
   }
-  if (url) {
-    newUrl = `${newUrl}${encodeToBase64(url)}/`;
+  if (request.endpointUrl) {
+    newUrl = `${newUrl}${encodeToBase64(request.endpointUrl)}/`;
   }
-  if (body) {
-    newUrl = `${newUrl}${encodeToBase64(body)}`;
+  if (request.body) {
+    newUrl = `${newUrl}${encodeToBase64(request.body)}`;
   } else {
-    if (method || url || headers.length > 0) {
+    if (request.method || request.endpointUrl || request.headers.length > 0) {
       newUrl = `${newUrl}${encodeToBase64("{}")}`;
     }
   }
-  if (headers.length > 0 && newUrl) {
+  if (request.headers.length > 0 && newUrl) {
     let headerSeparator = "?";
-    for (let i = 0; i < headers.length; i += 1) {
-      newUrl = `${newUrl}${headerSeparator}${headers[i].key}=${encodeToBase64(headers[i].value)}`;
+    for (let i = 0; i < request.headers.length; i += 1) {
+      newUrl = `${newUrl}${headerSeparator}${request.headers[i].key}=${encodeToBase64(request.headers[i].value)}`;
       if (headerSeparator === "?") headerSeparator = "&";
     }
   }
   return newUrl;
+};
+
+export const generateRequest = (
+  request: RestfulRequestProps,
+): { errors: RestfulClientErrors; body: RequestBody } => {
+  const errors = validateRequest(request);
+  const isMethodHaveBody = !isMethodBody(request.method);
+  const requestHeader = new Headers();
+  const headerList: string[] = [];
+  request.headers
+    .filter((x: RequestHeader) => x.key.length > 0 && x.value.length > 0)
+    .forEach((x: RequestHeader) => {
+      headerList.push(x.key);
+      requestHeader.append(x.key, x.value);
+    });
+  const body = !isMethodHaveBody
+    ? {
+        method: request.method,
+        headers: requestHeader,
+        body: request.body,
+      }
+    : {
+        method: request.method,
+        headers: requestHeader,
+      };
+  return { errors: errors, body: body };
+};
+
+const validateRequest = (request: RestfulRequestProps): RestfulClientErrors => {
+  let errors: RestfulClientErrors = defaultRestfulErrorsState;
+  if (request.method === "DEFAULT" || request.method === "") {
+    errors = {
+      ...errors,
+      methodError: t("wrong-method"),
+    };
+  }
+  if (!validateLink(request.endpointUrl)) {
+    errors = {
+      ...errors,
+      endpointUrlError: t("wrong-endpoint"),
+    };
+  }
+  const isMethodHaveBody = !isMethodBody(request.method);
+  if (request.method !== "DELETE") {
+    if (isMethodHaveBody && request.body) {
+      errors = {
+        ...errors,
+        bodyError: t("wrong-body-no"),
+      };
+    }
+    if (!isMethodHaveBody && !request.body) {
+      errors = {
+        ...errors,
+        bodyError: t("wrong-body-yes"),
+      };
+    }
+    if (!isMethodHaveBody && !validateBodyIsJson(request.body)) {
+      errors = {
+        ...errors,
+        bodyError: t("wrong-body-content"),
+      };
+    }
+  } else {
+    if (request.body.length > 0 && !validateBodyIsJson(request.body)) {
+      errors = {
+        ...errors,
+        bodyError: t("wrong-body-content"),
+      };
+    }
+  }
+  return errors;
 };

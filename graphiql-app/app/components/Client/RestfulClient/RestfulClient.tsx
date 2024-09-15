@@ -1,0 +1,160 @@
+import EndpointUrl from "~/components/Client/RestfulClient/EndpointUrl";
+import MethodSelector from "~/components/Client/RestfulClient/MethodSelector";
+import {
+  defaultRestfulErrorsState,
+  defaultRestfulRequestState,
+  defaultRestfulResponseState,
+  restMethods,
+} from "~/utils/constants";
+import CodeEditor from "~/components/Client/CodeEditor";
+import {
+  generateRequest,
+  generateRestfulUrl,
+  saveToLocalStorage,
+} from "~/utils/utils";
+import RequestHeaders from "~/components/Client/RestfulClient/RequestHeaders";
+import EditedURL from "~/components/Client/RestfulClient/EditedUrl";
+import { useTranslation } from "react-i18next";
+import {
+  RestfulClientErrors,
+  RestfulClientProps,
+  RestfulRequestProps,
+  RestfulResponseProps,
+} from "~/types";
+import { useEffect, useState } from "react";
+import { useNavigate } from "@remix-run/react";
+
+export default function RestfulClient(props: RestfulClientProps) {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [restfulRequest, setRestfulRequest] = useState<RestfulRequestProps>(
+    defaultRestfulRequestState,
+  );
+  const [restfulResponse, setRestfulResponse] = useState<RestfulResponseProps>(
+    defaultRestfulResponseState,
+  );
+  const [restfulErrors, setRestfulErrors] = useState<RestfulClientErrors>(
+    defaultRestfulErrorsState,
+  );
+
+  useEffect(() => {
+    if (props.restfulRequest) setRestfulRequest(props.restfulRequest);
+    if (props.restfulResponse) setRestfulResponse(props.restfulResponse);
+  }, []);
+
+  const sendRequest = async () => {
+    resetErrors();
+    const options = generateRequest(restfulRequest);
+    if (options.body === null) {
+      setRestfulErrors(options.errors);
+      return;
+    }
+
+    await fetch(restfulRequest.endpointUrl, options.body)
+      .then((response) => {
+        setRestfulResponse({
+          ...restfulResponse,
+          status: `${response.status}`,
+        });
+        return response.text();
+      })
+      .then((value) => {
+        setRestfulResponse({
+          ...restfulResponse,
+          body: value,
+        });
+        const link = generateRestfulUrl(restfulRequest);
+        saveToLocalStorage("restful", link);
+        navigate(link);
+      })
+      .catch(() => {
+        return;
+      });
+  };
+
+  const resetErrors = () => {
+    setRestfulResponse({
+      status: "",
+      body: "",
+    });
+    setRestfulErrors({
+      methodError: "",
+      endpointUrlError: "",
+      bodyError: "",
+    });
+  };
+
+  return (
+    <div className="flex flex-col items-center py-2.5 px-4 gap-2">
+      <div>
+        <span className="block w-fit">{t("request")}</span>
+        <div className="flex flex-col justify-start gap-2 py-2.5 px-4 border border-black  rounded-lg w-fit">
+          <MethodSelector
+            id="restful-method"
+            methods={restMethods}
+            setRequest={setRestfulRequest}
+            request={restfulRequest}
+          />
+          {restfulErrors.methodError && (
+            <div className="text-base text-red-500 w-fit">
+              {restfulErrors.methodError}
+            </div>
+          )}
+          <EndpointUrl
+            id="restful-url"
+            setRequest={setRestfulRequest}
+            request={restfulRequest}
+          />
+          {restfulErrors.endpointUrlError && (
+            <div className="text-base text-red-500 w-fit">
+              {restfulErrors.endpointUrlError}
+            </div>
+          )}
+          <EditedURL
+            id="restful-url-edited"
+            url={generateRestfulUrl(restfulRequest)}
+          />
+          <RequestHeaders
+            id="restful-headers"
+            setRequest={setRestfulRequest}
+            request={restfulRequest}
+          />
+          <CodeEditor
+            language="json"
+            readonly={false}
+            value=""
+            id="restful-request-editor"
+            setRequest={setRestfulRequest}
+            request={restfulRequest}
+          />
+          {restfulErrors.bodyError && (
+            <div className="text-base text-red-500 w-fit">
+              {restfulErrors.bodyError}
+            </div>
+          )}
+        </div>
+      </div>
+      <button
+        className="inline-flex items-center bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
+        onClick={sendRequest}
+      >
+        {t("request-send")}
+      </button>
+      <div>
+        <span>{t("response")}</span>
+        <div className="flex flex-col justify-start gap-2 py-2.5 px-4 border border-black rounded-lg w-fit hover:cursor-default">
+          <div className="hover:cursor-default">
+            {t("response-status")}:{" "}
+            {restfulResponse.status.length ? restfulResponse.status : "-"}
+          </div>
+          <CodeEditor
+            language="json"
+            readonly={true}
+            value={restfulResponse.body}
+            id="restful-response-editor"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
