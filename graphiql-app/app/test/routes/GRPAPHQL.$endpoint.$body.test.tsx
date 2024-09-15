@@ -7,6 +7,7 @@ import { i18nCookie } from "../../cookie";
 
 vi.mock("@remix-run/react", () => ({
   useLoaderData: vi.fn(),
+  useNavigate: vi.fn(),
 }));
 
 vi.mock("../../utils/encode", () => ({
