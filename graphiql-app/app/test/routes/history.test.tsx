@@ -54,7 +54,11 @@ describe("History Component", () => {
       }
       return () => {};
     });
-    render(<History />);
+    render(
+      <MemoryRouter>
+        <History />
+      </MemoryRouter>,
+    );
 
     expect(screen.getByText("you_must_login_or_register")).toBeInTheDocument();
   });
@@ -101,11 +105,7 @@ describe("History Component", () => {
       </MemoryRouter>,
     );
 
-    expect(
-      await screen.findByText(
-        "You have not executed any requests yet. Follow one of the links:",
-      ),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("history_plaseholder")).toBeInTheDocument();
     expect(screen.getByText("Restful Client")).toBeInTheDocument();
     expect(screen.getByText("Graphiql Client")).toBeInTheDocument();
   });
