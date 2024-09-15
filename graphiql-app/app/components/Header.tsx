@@ -34,7 +34,7 @@ export default function Header() {
     const handleScroll = () => {
       const header = document.getElementById("header");
       if (header) {
-        if (window.scrollY > 50) {
+        if (window.scrollY > 1) {
           header.classList.add("h-[60px]");
           setIsScrolled(true);
         } else {
@@ -51,7 +51,7 @@ export default function Header() {
   return (
     <header
       id="header"
-      className="flex flex-wrap justify-between content-center h-24 p-4 sticky text-3xl text-white bg-gradient-to-t from-gray-300 to-blue-500 top-0 transition-all duration-300"
+      className="flex flex-wrap justify-between content-center h-24 p-4 sticky text-3xl text-white bg-gradient-to-t from-gray-300 to-blue-500 top-0 transition-all duration-300 z-100"
     >
       <h1>
         <Link
