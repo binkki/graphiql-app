@@ -1,10 +1,15 @@
-import { Outlet, useParams, useSearchParams } from "@remix-run/react";
+import {
+  Outlet,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import CodeEditor from "../components/CodeEditor";
-import { auth } from "../firebase";
-import { buildGraphiQLUrl, decodeBase64 } from "../utils/encode";
+import CodeEditor from "../components/Client/CodeEditor";
+import { auth } from "~/firebase";
+import { buildGraphiQLUrl, decodeBase64 } from "~/utils/encode";
 import showToast from "../utils/toast";
 import { saveToLocalStorage } from "../utils/localStorage";
 
@@ -32,6 +37,17 @@ export default function Graphiql() {
 
   let query = "query {}";
   let variables = "{}";
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        return navigate("/");
+      }
+    });
+    return () => listen();
+  }, []);
 
   try {
     if (decodedBody) {

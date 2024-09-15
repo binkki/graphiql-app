@@ -27,16 +27,25 @@ export default function Index() {
     return () => listen();
   }, []);
 
-  if (!ready) return <div>Loading...</div>;
+  if (!ready) return <div>{t("loading")}</div>;
   return (
     <>
       {authUser ? (
         <>
-          <h2 className="text-center text-2xl font-bold pt-12 mb-5">
+          <h2
+            className="text-center text-2xl font-bold pt-12 mb-5"
+            data-testid="main-greets"
+          >
             {t("greeting")},
           </h2>
           <div className="text-center text-2xl font-medium m-0 mb-12">
             {authUser.email}!
+          </div>
+          <div className="text-center text-2xl font-small m-0 mb-12">
+            {t("app_description")}
+          </div>
+          <div className="text-center text-2xl font-small">
+            {t("try_it_now")}
           </div>
           <div className="flex justify-center mb-[6.25rem]">
             <ul className="flex items-center justify-between h-24 gap-5">
@@ -54,22 +63,27 @@ export default function Index() {
         </>
       ) : (
         <>
-          <h1 className="text-center text-2xl my-5">{t("greeting")}</h1>
+          <h1 className="text-center text-2xl my-5" data-testid="main-greets">
+            {t("greeting")}!
+          </h1>
           <div className="flex flex-col items-center">
-            <h2>{t("please_follow_the_links")}</h2>
+            <div className="text-center text-2xl font-small m-0 mb-12">
+              {t("app_description")}
+            </div>
             <div>
+              <span>{t("please_follow_the_links")}</span>
               <Link
                 className="text-red-500 hover:text-red-700 transition-colors duration-300"
                 to={"/signin"}
               >
-                {t("signin")}{" "}
+                {t("please_signin")}{" "}
               </Link>
               {t("or")}{" "}
               <Link
                 className="text-red-500 hover:text-red-700 transition-colors duration-300"
                 to={"/signup"}
               >
-                {t("signup")}
+                {t("please_signout")}
               </Link>
             </div>
           </div>

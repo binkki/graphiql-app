@@ -1,17 +1,12 @@
-import { useEffect, useRef, useImperativeHandle, forwardRef } from "react";
+import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 import loader from "@monaco-editor/loader";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
-
-type CodeEditorProps = {
-  language: string;
-  readonly: boolean;
-  value: string;
-  id: string;
-  onBlur?: () => void;
-};
+import { CodeEditorProps } from "../../types";
+import { useTranslation } from "react-i18next";
 
 const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+  const { t } = useTranslation();
 
   const formatInput = () => {
     editorRef.current?.getAction("editor.action.formatDocument")?.run();
@@ -19,14 +14,6 @@ const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 
   useImperativeHandle(ref, () => ({
     getValue: () => editorRef.current?.getValue(),
-    // setValue: (value: string) => {
-    //   if (editorRef.current) {
-    //     const model = editorRef.current.getModel();
-    //     if (model) {
-    //       model.setValue(value);
-    //     }
-    //   }
-    // },
   }));
 
   useEffect(() => {
@@ -45,11 +32,6 @@ const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
           contextmenu: false,
         });
         monacoEditor.layout({ width: 400, height: 200 });
-        monacoEditor.onDidBlurEditorText(() => {
-          if (!props.readonly && props.onBlur) {
-            props.onBlur();
-          }
-        });
         setTimeout(() => {
           monacoEditor
             .getAction("editor.action.formatDocument")
@@ -59,26 +41,47 @@ const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
             });
         }, 1);
         if (monacoEditor) editorRef.current = monacoEditor;
+        monacoEditor.onDidBlurEditorWidget(() => {
+          if (props.setRequestBody && !props.readonly)
+            props.setRequestBody(monacoEditor.getValue());
+        });
+      } else {
+        try {
+          editorRef.current
+            ?.getModel()
+            ?.setValue(
+              props.value
+                ? JSON.stringify(JSON.parse(props.value), null, 4)
+                : "",
+            );
+          editorRef.current?.revealLine(1);
+        } catch {
+          return;
+        }
       }
     });
-  }, []);
+  }, [props.value]);
 
   return (
     <>
+      <div
+        id={props.id}
+        data-testid={
+          props.readonly ? "restful-response-body" : "restful-request-body"
+        }
+      />
       <div>
         {!props.readonly && (
           <button
-            className="h-10 px-5 m-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+            className="inline-flex items-center bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
             onClick={formatInput}
           >
-            Format
+            {t("format")}
           </button>
         )}
       </div>
-      <div id={props.id} />
     </>
   );
 });
 
-CodeEditor.displayName = "CodeEditor";
 export default CodeEditor;

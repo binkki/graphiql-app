@@ -1,10 +1,12 @@
 import { json, LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { decodeBase64 } from "../utils/encode";
+import { useLoaderData, useNavigate } from "@remix-run/react";
+import { decodeBase64 } from "~/utils/encode";
 import { getIntrospectionQuery } from "graphql";
 import { i18nCookie } from "../cookie";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "~/firebase";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const endpoint = decodeBase64(params.endpoint || "");
@@ -65,6 +67,16 @@ export default function GraphiQLResponse() {
     flag: boolean;
     text: string;
   }>({ flag: false, text: "Show Docs" });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        return navigate("/");
+      }
+    });
+    return () => listen();
+  }, []);
 
   function toggleDocs() {
     if (showDocs.flag) {

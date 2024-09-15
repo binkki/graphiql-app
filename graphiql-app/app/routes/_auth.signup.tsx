@@ -1,9 +1,7 @@
-import { Form, Link } from "@remix-run/react";
+import { Form, Link, useNavigate } from "@remix-run/react";
 import {
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   sendEmailVerification,
-  User,
 } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,23 +23,12 @@ const SignUp: React.FC = () => {
     emailVerified: boolean;
   } | null>(null);
   const { t } = useTranslation();
-
-  const [authUser, setAuthUser] = useState<User | null>(null);
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user);
-      } else {
-        setAuthUser(null);
-      }
-    });
-    return () => listen();
-  }, []);
+  const navigate = useNavigate();
 
   const handleEmailChange = (data: string) => {
     setEmail(data);
     if (!validateEmail(data)) {
-      setEmailError("Invalid email format");
+      setEmailError(t("error_invalid_email_format"));
     } else {
       setEmailError(null);
     }
@@ -50,9 +37,7 @@ const SignUp: React.FC = () => {
   const handlePasswordChange = (data: string) => {
     setPassword(data);
     if (!validatePassword(data)) {
-      setPasswordError(
-        "Password must include at least one letter, one digit and one special symbol",
-      );
+      setPasswordError(t("error_password_validation"));
     } else {
       setPasswordError(null);
     }
@@ -70,19 +55,16 @@ const SignUp: React.FC = () => {
       const user = userCred.user;
 
       await sendEmailVerification(user);
-      console.log("Success");
 
       setEmail("");
       setPassword("");
 
-      window.location.reload();
+      return navigate("/");
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Error during registration:", error.message);
-        setPasswordError("Registration failed. Please try again.");
+        setPasswordError(t("error_registration"));
       } else {
-        console.error("Unexpected error:", error);
-        setPasswordError("An unexpected error occurred. Please try again.");
+        setPasswordError(t("error_unexpected"));
       }
     }
   };
@@ -105,83 +87,71 @@ const SignUp: React.FC = () => {
 
   return (
     <>
-      {authUser ? (
-        <>
-          <h2 className="text-center mb-12">
-            {t("you_are_already_registered")}
-          </h2>
-        </>
-      ) : (
-        <>
-          <h2 className="text-center text-3xl m-2">{t("signup")}</h2>
-          <p className="text-center text-xl m-2">
-            {t("haveAccount")}
-            <Link className="text-blue-800 ml-2" to={"/signin"}>
-              {t("signinAction")}
-            </Link>
-          </p>
-          <Form
-            className="flex flex-col items-center"
-            action="/signup"
-            method="post"
-          >
-            <div
-              className={`w-80 ${emailError ? "error" : email ? "success" : ""}`}
-            >
-              <div className="flex justify-between m-2 w-80">
-                <label className="text-2xl" htmlFor="email">
-                  Email
-                </label>
-                <InputField
-                  placeholder={"E-mail Address"}
-                  handleChange={handleEmailChange}
-                  type={"email"}
-                  autoComplete={"email"}
-                  id={"email"}
-                />
-              </div>
-              {emailError && (
-                <div className="text-red-500 text-xs mt-2">{emailError}</div>
-              )}
-            </div>
-            <div
-              className={`w-80 ${passwordError ? "error" : password ? "success" : ""}`}
-            >
-              <div className="flex justify-between m-2 w-80">
-                <label className="text-2xl" htmlFor="password">
-                  {t("password")}
-                </label>
-                <InputField
-                  placeholder={t("password")}
-                  handleChange={handlePasswordChange}
-                  type={"password"}
-                  autoComplete={"new-password"}
-                  id={"password"}
-                />
-              </div>
-              {passwordError && (
-                <div className="text-red-500 text-xs mt-2">{passwordError}</div>
-              )}
-            </div>
-            <button
-              className="mt-4 border-solid rounded-3xl bg-gray-500 p-4 bg-gradient-to-tl from-gray-300 via-gray-500 to-black text-center align-self-center"
-              type="button"
-              onClick={signUpAction}
-            >
-              {t("signup")}
-            </button>
-          </Form>
-          {user && (
-            <div className="text-sm flex flex-col items-center mt-10">
-              <p>{user?.email}</p>
-              <p>
-                {user?.emailVerified
-                  ? "Email verified!"
-                  : "Email not verified!"}
-              </p>
-            </div>
+      <h2 className="text-center text-3xl m-2">{t("signup")}</h2>
+      <p className="text-center text-xl m-2">
+        {t("haveAccount")}
+        <Link className="text-blue-800 ml-2" to={"/signin"}>
+          {t("signinAction")}
+        </Link>
+      </p>
+      <Form
+        className="flex flex-col items-center"
+        action="/signup"
+        method="post"
+      >
+        <div
+          className={`w-80 ${emailError ? "error" : email ? "success" : ""}`}
+        >
+          <div className="flex justify-between m-2 w-80">
+            <label className="text-2xl" htmlFor="email">
+              Email
+            </label>
+            <InputField
+              placeholder={"E-mail Address"}
+              handleChange={handleEmailChange}
+              type={"email"}
+              autoComplete={"email"}
+              id={"email"}
+            />
+          </div>
+          {emailError && (
+            <div className="text-red-500 text-xs mt-2">{emailError}</div>
           )}
-        </>
+        </div>
+        <div
+          className={`w-80 ${passwordError ? "error" : password ? "success" : ""}`}
+        >
+          <div className="flex justify-between m-2 w-80">
+            <label className="text-2xl" htmlFor="password">
+              {t("password")}
+            </label>
+            <InputField
+              placeholder={t("password")}
+              handleChange={handlePasswordChange}
+              type={"password"}
+              autoComplete={"new-password"}
+              id={"password"}
+            />
+          </div>
+          {passwordError && (
+            <div className="text-red-500 text-xs mt-2">{passwordError}</div>
+          )}
+        </div>
+        <button
+          className="mt-4 border-solid rounded-3xl bg-gray-500 p-4 bg-gradient-to-tl from-gray-300 via-gray-500 to-black text-center align-self-center"
+          type="button"
+          onClick={signUpAction}
+        >
+          {t("signup")}
+        </button>
+      </Form>
+      {user && (
+        <div className="text-sm flex flex-col items-center mt-10">
+          <p>{user?.email}</p>
+          <p>
+            {user?.emailVerified ? "Email verified!" : "Email not verified!"}
+          </p>
+        </div>
       )}
     </>
   );
