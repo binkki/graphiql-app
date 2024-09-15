@@ -1,0 +1,2 @@
+cd ./graphiql-app
+npm run lint
