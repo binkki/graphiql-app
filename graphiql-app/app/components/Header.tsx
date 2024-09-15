@@ -2,9 +2,11 @@ import { Link, useLocation } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { auth } from "../firebase";
+import homeImgBlack from "../../public/home-black.svg";
+import homeImgWhite from "../../public/home.svg";
 import signOutImgWhite from "../../public/sing-out-white.svg";
 import signOutImgBlack from "../../public/sing-out.svg";
+import { auth } from "../firebase";
 import i18nextOptions from "../i18nextOptions";
 import UserSingOut from "./UserSingOut/UserSingOut";
 
@@ -116,6 +118,15 @@ export default function Header() {
           >
             History
           </Link>
+          <Link to="/">
+            <img
+              className={"w-[20px] mr-[15px]"}
+              src={isScrolled ? homeImgWhite : homeImgBlack}
+              alt={"Sign Out"}
+              title={"Sign Out"}
+            />
+          </Link>
+
           <UserSingOut
             src={isScrolled ? signOutImgWhite : signOutImgBlack}
             alt={"Sign Out"}
