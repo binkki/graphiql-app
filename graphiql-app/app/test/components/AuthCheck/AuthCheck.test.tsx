@@ -21,7 +21,6 @@ describe("AuthCheck", () => {
       onAuthStateChanged as unknown as ReturnType<typeof vi.fn>
     ).mockImplementation(
       (_auth: unknown, callback: (user: User | null) => void) => {
-        // Simulate a delay to ensure loading state is rendered
         setTimeout(() => callback(null), 100);
         return () => {};
       },
@@ -29,7 +28,7 @@ describe("AuthCheck", () => {
 
     render(<AuthCheck>Authenticated Content</AuthCheck>);
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText("loading")).toBeInTheDocument();
   });
 
   it("renders children when user is authenticated", async () => {

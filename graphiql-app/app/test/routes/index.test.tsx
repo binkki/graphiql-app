@@ -49,10 +49,11 @@ describe("Index", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByText("greeting")).toBeInTheDocument();
+    expect(screen.getByText("greeting!")).toBeInTheDocument();
+    expect(screen.getByText("app_description")).toBeInTheDocument();
     expect(screen.getByText("please_follow_the_links")).toBeInTheDocument();
-    expect(screen.getByText("signin")).toBeInTheDocument();
-    expect(screen.getByText("signup")).toBeInTheDocument();
+    expect(screen.getByText("please_signin")).toBeInTheDocument();
+    expect(screen.getByText("please_signout")).toBeInTheDocument();
   });
 
   it("renders the greeting for authenticated users", () => {

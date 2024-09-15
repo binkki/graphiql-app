@@ -57,7 +57,7 @@ describe("SignIn Component", () => {
   it("handles email change", () => {
     renderWithRouter(<SignIn />);
     const emailInput = screen.getByPlaceholderText(
-      "E-mail Address",
+      "email_placeholder",
     ) as HTMLInputElement;
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
     expect(emailInput.value).toBe("test@example.com");
@@ -66,7 +66,7 @@ describe("SignIn Component", () => {
   it("handles password change", () => {
     renderWithRouter(<SignIn />);
     const passwordInput = screen.getByPlaceholderText(
-      "Password",
+      "password_placeholder",
     ) as HTMLInputElement;
     fireEvent.change(passwordInput, { target: { value: "Password123!" } });
     expect(passwordInput.value).toBe("Password123!");
@@ -75,23 +75,19 @@ describe("SignIn Component", () => {
   it("shows error for invalid email format", () => {
     renderWithRouter(<SignIn />);
     const emailInput = screen.getByPlaceholderText(
-      "E-mail Address",
+      "email_placeholder",
     ) as HTMLInputElement;
     fireEvent.change(emailInput, { target: { value: "invalid-email" } });
-    expect(screen.getByText("Invalid email format")).toBeInTheDocument();
+    expect(screen.getByText("error_invalid_email_format")).toBeInTheDocument();
   });
 
   it("shows error for invalid password format", () => {
     renderWithRouter(<SignIn />);
     const passwordInput = screen.getByPlaceholderText(
-      "Password",
+      "password_placeholder",
     ) as HTMLInputElement;
     fireEvent.change(passwordInput, { target: { value: "123" } });
-    expect(
-      screen.getByText(
-        "Password must include at least one letter, one digit and one special symbol",
-      ),
-    ).toBeInTheDocument();
+    expect(screen.getByText("error_password_validation")).toBeInTheDocument();
   });
 
   it("shows error for invalid credentials", async () => {
@@ -101,10 +97,10 @@ describe("SignIn Component", () => {
 
     renderWithRouter(<SignIn />);
     const emailInput = screen.getByPlaceholderText(
-      "E-mail Address",
+      "email_placeholder",
     ) as HTMLInputElement;
     const passwordInput = screen.getByPlaceholderText(
-      "Password",
+      "password_placeholder",
     ) as HTMLInputElement;
     const signInButton = screen.getByText("submit");
 
@@ -113,11 +109,7 @@ describe("SignIn Component", () => {
     fireEvent.click(signInButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText(
-          "Sorry, your account was not found. Please check if the data you entered is correct or re-register.",
-        ),
-      ).toBeInTheDocument();
+      expect(screen.getByText("error_account_not_found")).toBeInTheDocument();
     });
   });
 });
