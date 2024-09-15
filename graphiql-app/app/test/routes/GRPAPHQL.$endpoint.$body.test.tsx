@@ -7,6 +7,7 @@ import { decodeBase64 } from "../../utils/encode";
 
 vi.mock("@remix-run/react", () => ({
   useLoaderData: vi.fn(),
+  useNavigate: vi.fn(),
 }));
 
 vi.mock("../../utils/encode", () => ({
