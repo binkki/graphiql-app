@@ -10,7 +10,7 @@ export default function ResponseSection(props: RestfulResponseProps) {
       <div className="flex flex-col justify-start gap-2 py-2.5 px-4 border border-black rounded-lg w-fit hover:cursor-default">
         <div
           className="hover:cursor-default"
-          data-testId="restful-response-status"
+          data-testid="restful-response-status"
         >
           {t("response-status")}: {props.status.length ? props.status : "-"}
         </div>
