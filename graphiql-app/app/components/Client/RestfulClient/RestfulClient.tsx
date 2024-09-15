@@ -116,7 +116,10 @@ export default function RestfulClient(props: RestfulClientProps) {
   };
 
   return (
-    <div className="flex flex-col items-center py-2.5 px-4 gap-2">
+    <div
+      className="flex flex-col items-center py-2.5 px-4 gap-2"
+      data-testid="restful-client"
+    >
       <div>
         <span className="block w-fit">{t("request")}</span>
         <div className="flex flex-col justify-start gap-2 py-2.5 px-4 border border-black  rounded-lg w-fit">
