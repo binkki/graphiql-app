@@ -6,7 +6,7 @@ import {
   getHistoryFromLocalStorage,
   type Requests,
 } from "../utils/localStorage";
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 
 export default function History() {
   const [authUser, setAuthUser] = useState<User | null>(null);
@@ -23,6 +23,16 @@ export default function History() {
     return () => listen();
   }, []);
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        return navigate("/");
+      }
+    });
+    return () => listen();
+  }, []);
 
   useEffect(() => {
     const history = getHistoryFromLocalStorage();
@@ -61,7 +71,7 @@ export default function History() {
           ) : (
             <>
               <h2 className="text-center text-2xl font-bold pt-12 mb-5">
-                You have not executed any requests yet. Follow one of the links:
+                {t("history_plaseholder")}
               </h2>
               <div className="flex justify-center mb-[6.25rem]">
                 <ul className="flex items-center justify-between h-24 gap-5">

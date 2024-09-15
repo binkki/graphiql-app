@@ -3,6 +3,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { ReactNode, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { auth } from "../../firebase";
+import { useTranslation } from "react-i18next";
 
 interface AuthCheckProps {
   children: ReactNode;
@@ -12,6 +13,7 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -27,7 +29,7 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
   }, [navigate]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t("loading")}</div>;
   }
 
   return <>{isAuthenticated ? children : null}</>;
