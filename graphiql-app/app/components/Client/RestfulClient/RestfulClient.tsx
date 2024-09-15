@@ -95,7 +95,7 @@ export default function RestfulClient(props: RestfulClientProps) {
           body: value,
         });
         const link = generateRestfulUrl(restfulRequest);
-        saveToLocalStorage("REST", link);
+        saveToLocalStorage(requestMetod, link);
         navigate(link);
       })
       .catch(() => {
