@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "~/firebase";
+import ResponseSection from "~/components/Client/ResponseSection";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const endpoint = decodeBase64(params.endpoint || "");
@@ -32,7 +33,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       },
       body: JSON.stringify({ query, variables: variables || {} }),
     });
-
+    const responseStatus = `${response.status}`;
     const jsonResponse = await response.json();
 
     let sdlDocs: string | null = null;
@@ -52,14 +53,15 @@ export const loader: LoaderFunction = async ({ params, request }) => {
         sdlDocs = await sdlResponse.json();
       }
     }
-    return json({ jsonResponse, sdlDocs, locale });
+    return json({ jsonResponse, responseStatus, sdlDocs, locale });
   } catch (err) {
     return json({ err, locale });
   }
 };
 
 export default function GraphiQLResponse() {
-  const { jsonResponse, sdlDocs, err } = useLoaderData<typeof loader>();
+  const { jsonResponse, responseStatus, sdlDocs, err } =
+    useLoaderData<typeof loader>();
   const { t } = useTranslation();
   const [showDocs, setShowDocs] = useState<{
     flag: boolean;
@@ -87,17 +89,27 @@ export default function GraphiQLResponse() {
   return (
     <div>
       <h1>{t("GraphQLResponse")}</h1>
-      <pre className="w-10/12">
-        {jsonResponse ? JSON.stringify(jsonResponse, null, 2) : err.message}
-      </pre>
+      <ResponseSection
+        body={
+          jsonResponse ? JSON.stringify(jsonResponse, null, 2) : err.message
+        }
+        status={responseStatus || "-"}
+      />
       {sdlDocs && (
         <div>
           <h2>{t("sdlDocs")}</h2>
-          <button onClick={toggleDocs}>{showDocs.text}</button>
+          <button
+            className="bg-blue-500 mx-auto rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
+            onClick={toggleDocs}
+          >
+            {showDocs.text}
+          </button>
           {showDocs.flag && (
-            <pre className="w-full overflow-hidden">
-              {JSON.stringify(sdlDocs, null, 2)}
-            </pre>
+            <textarea
+              className="w-10/12 overflow-scroll h-64 block"
+              value={JSON.stringify(sdlDocs, null, 2)}
+              readOnly={true}
+            ></textarea>
           )}
         </div>
       )}
