@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { auth } from "~/firebase";
+import { auth } from "../firebase";
 
 export const meta: MetaFunction = () => {
   return [
@@ -32,7 +32,10 @@ export default function Index() {
     <>
       {authUser ? (
         <>
-          <h2 className="text-center text-2xl font-bold pt-12 mb-5">
+          <h2
+            className="text-center text-2xl font-bold pt-12 mb-5"
+            data-testid="main-greets"
+          >
             {t("greeting")},
           </h2>
           <div className="text-center text-2xl font-medium m-0 mb-12">
@@ -60,7 +63,9 @@ export default function Index() {
         </>
       ) : (
         <>
-          <h1 className="text-center text-2xl my-5">{t("greeting")}!</h1>
+          <h1 className="text-center text-2xl my-5" data-testid="main-greets">
+            {t("greeting")}!
+          </h1>
           <div className="flex flex-col items-center">
             <div className="text-center text-2xl font-small m-0 mb-12">
               {t("app_description")}

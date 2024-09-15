@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { HeaderItemProps, RequestHeader } from "~/types";
+import { HeaderItemProps, RequestHeader } from "../../../types";
 
 const HeaderItem = (props: HeaderItemProps) => {
   const [add, setAdd] = useState(false);

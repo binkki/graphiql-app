@@ -1,7 +1,7 @@
 import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 import loader from "@monaco-editor/loader";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
-import { CodeEditorProps } from "~/types";
+import { CodeEditorProps } from "../../types";
 import { useTranslation } from "react-i18next";
 
 const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
@@ -64,7 +64,12 @@ const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 
   return (
     <>
-      <div id={props.id} />
+      <div
+        id={props.id}
+        data-testid={
+          props.readonly ? "restful-response-body" : "restful-request-body"
+        }
+      />
       <div>
         {!props.readonly && (
           <button

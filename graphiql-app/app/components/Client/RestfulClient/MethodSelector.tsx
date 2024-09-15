@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FormField, RestfulMethodProps } from "~/types";
+import { FormField, RestfulMethodProps } from "../../../types";
 
 const MethodSelector = (props: RestfulMethodProps) => {
   const { register, handleSubmit } = useForm<FormField>();
@@ -36,6 +36,7 @@ const MethodSelector = (props: RestfulMethodProps) => {
         id={props.id}
         className="border border-gray-500 rounded-lg text-gray-600 text-base py-2.5 px-4 w-fit focus:bg-gray-400 focus:text-white focus:outline-none focus:cursor-pointer hover:cursor-pointer"
         value={defaultMethod}
+        data-testid="restful-mathodSelector"
         {...register("value")}
       >
         <option value="DEFAULT">{t("choose-method")}</option>

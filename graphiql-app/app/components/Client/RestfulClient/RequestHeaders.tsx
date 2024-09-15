@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ClientProps, RequestHeader } from "~/types";
+import { ClientProps, RequestHeader } from "../../../types";
 import HeaderItem from "./HeaderItem";
-import { defaultHeaders } from "~/utils/constants";
+import { defaultHeaders } from "../../../utils/constants";
 import { useTranslation } from "react-i18next";
 
 const RequestHeaders = (props: ClientProps) => {
@@ -41,7 +41,11 @@ const RequestHeaders = (props: ClientProps) => {
   };
 
   return (
-    <div id={props.id} className="flex flex-col gap-2">
+    <div
+      id={props.id}
+      className="flex flex-col gap-2"
+      data-testid="restful-headers"
+    >
       <button
         className="inline-flex items-center bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
         onClick={createHeader}
