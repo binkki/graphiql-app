@@ -8,7 +8,7 @@ import { auth } from "~/firebase";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Graphiql App" },
+    { title: "REST/Graphiql App" },
     { name: "description", content: "Welcome to Graphiql App!" },
   ];
 };
