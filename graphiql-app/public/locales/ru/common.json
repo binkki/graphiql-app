@@ -28,5 +28,6 @@
   "variables": "Переменные:",
   "execute": "Выполнить запрос",
   "GraphQLResponse": "Результат запроса GraphiQL",
-  "sdlDocs": "SDL Документация"
+  "sdlDocs": "SDL Документация",
+  "page-not-found": "Страница не найдена"
 }
