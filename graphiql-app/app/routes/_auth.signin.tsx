@@ -8,8 +8,8 @@ import { useTranslation } from "react-i18next";
 import {
   validateEmail,
   validatePassword,
-} from "~/components/DataHandling/DataHandling";
-import { auth } from "~/firebase";
+} from "../components/DataHandling/DataHandling";
+import { auth } from "../firebase";
 import InputField from "../components/Input/Input";
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>("");

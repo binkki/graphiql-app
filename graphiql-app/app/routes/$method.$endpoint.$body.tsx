@@ -1,12 +1,12 @@
-import { defaultRestfulResponseState, restMethods } from "~/utils/constants";
-import { decodeUrlFromBase64, generateRequest } from "~/utils/utils";
+import { defaultRestfulResponseState, restMethods } from "../utils/constants";
+import { decodeUrlFromBase64, generateRequest } from "../utils/utils";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import { json, LoaderFunction, redirect } from "@remix-run/node";
-import { i18nCookie } from "~/cookie";
-import RestfulClient from "~/components/Client/RestfulClient/RestfulClient";
+import { i18nCookie } from "../cookie";
+import RestfulClient from "../components/Client/RestfulClient/RestfulClient";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
-import { auth } from "~/firebase";
+import { auth } from "../firebase";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");

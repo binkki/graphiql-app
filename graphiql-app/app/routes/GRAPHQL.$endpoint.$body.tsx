@@ -1,12 +1,10 @@
 import { json, LoaderFunction } from "@remix-run/node";
-import { useLoaderData, useNavigate } from "@remix-run/react";
-import { decodeBase64 } from "~/utils/encode";
+import { useLoaderData } from "@remix-run/react";
+import { decodeBase64 } from "../utils/encode";
 import { getIntrospectionQuery } from "graphql";
-import { i18nCookie } from "~/cookie";
+import { i18nCookie } from "../cookie";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "~/firebase";
+import { useState } from "react";
 import ResponseSection from "~/components/Client/ResponseSection";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
@@ -55,7 +53,9 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
     return json({ jsonResponse, responseStatus, sdlDocs, locale });
   } catch (err) {
-    return json({ err, locale });
+    if (err instanceof Error) {
+      return json({ err: { message: err.message }, locale });
+    }
   }
 };
 
@@ -67,16 +67,6 @@ export default function GraphiQLResponse() {
     flag: boolean;
     text: string;
   }>({ flag: false, text: "Show Docs" });
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        return navigate("/");
-      }
-    });
-    return () => listen();
-  }, []);
 
   function toggleDocs() {
     if (showDocs.flag) {

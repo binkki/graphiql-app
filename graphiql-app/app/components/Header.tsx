@@ -2,7 +2,7 @@ import { Link, useLocation } from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { auth } from "~/firebase";
+import { auth } from "../firebase";
 import signOutImgWhite from "../../public/sing-out-white.svg";
 import signOutImgBlack from "../../public/sing-out.svg";
 import i18nextOptions from "../i18nextOptions";

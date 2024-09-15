@@ -120,7 +120,9 @@ export const generateRequest = (
   return { errors: errors, body: body };
 };
 
-const validateRequest = (request: RestfulRequestProps): RestfulClientErrors => {
+export const validateRequest = (
+  request: RestfulRequestProps,
+): RestfulClientErrors => {
   let errors: RestfulClientErrors = defaultRestfulErrorsState;
   if (request.method === "DEFAULT" || request.method === "") {
     errors = {

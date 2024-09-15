@@ -1,15 +1,15 @@
-import EndpointUrl from "~/components/Client/RestfulClient/EndpointUrl";
-import MethodSelector from "~/components/Client/RestfulClient/MethodSelector";
+import EndpointUrl from "./EndpointUrl";
+import MethodSelector from "./MethodSelector";
 import {
   defaultRestfulErrorsState,
   defaultRestfulRequestState,
   defaultRestfulResponseState,
   restMethods,
-} from "~/utils/constants";
-import CodeEditor from "~/components/Client/CodeEditor";
-import { generateRequest, generateRestfulUrl } from "~/utils/utils";
-import RequestHeaders from "~/components/Client/RestfulClient/RequestHeaders";
-import EditedURL from "~/components/Client/RestfulClient/EditedUrl";
+} from "../../../utils/constants";
+import CodeEditor from "../CodeEditor";
+import { generateRequest, generateRestfulUrl } from "../../../utils/utils";
+import RequestHeaders from "./RequestHeaders";
+import EditedURL from "./EditedUrl";
 import { useTranslation } from "react-i18next";
 import {
   RestfulClientErrors,
@@ -19,7 +19,7 @@ import {
 } from "~/types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "@remix-run/react";
-import { saveToLocalStorage } from "~/utils/localStorage";
+import { saveToLocalStorage } from "../../../utils/localStorage";
 import ResponseSection from "../ResponseSection";
 
 export default function RestfulClient(props: RestfulClientProps) {
@@ -168,6 +168,7 @@ export default function RestfulClient(props: RestfulClientProps) {
       <button
         className="inline-flex items-center bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
         onClick={sendRequest}
+        data-testid="restful-submit"
       >
         {t("request-send")}
       </button>
