@@ -47,7 +47,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="h-screen scroll-smooth">
+      <body className="scroll-smooth">
         <AuthCheck>
           <Header />
           {children}
