@@ -2,7 +2,7 @@ import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import { decodeBase64 } from "~/utils/encode";
 import { getIntrospectionQuery } from "graphql";
-import { i18nCookie } from "~/cookie";
+import { i18nCookie } from "../cookie";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -54,7 +54,9 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
     return json({ jsonResponse, sdlDocs, locale });
   } catch (err) {
-    return json({ err, locale });
+    if (err instanceof Error) {
+      return json({ err: { message: err.message }, locale });
+    }
   }
 };
 
@@ -88,7 +90,11 @@ export default function GraphiQLResponse() {
     <div>
       <h1>{t("GraphQLResponse")}</h1>
       <pre className="w-10/12">
-        {jsonResponse ? JSON.stringify(jsonResponse, null, 2) : err.message}
+        {jsonResponse
+          ? JSON.stringify(jsonResponse, null, 2)
+          : err
+            ? err.message
+            : "An error occurred"}
       </pre>
       {sdlDocs && (
         <div>

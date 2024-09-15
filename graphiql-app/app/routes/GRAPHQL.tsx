@@ -11,7 +11,7 @@ import CodeEditor from "../components/Client/CodeEditor";
 import { auth } from "~/firebase";
 import { buildGraphiQLUrl, decodeBase64 } from "~/utils/encode";
 import showToast from "../utils/toast";
-import { saveToLocalStorage } from "~/utils/localStorage";
+import { saveToLocalStorage } from "../utils/localStorage";
 
 export default function Graphiql() {
   const params = useParams();
@@ -222,9 +222,7 @@ export default function Graphiql() {
           </button>
           {showVariables.flag && (
             <div className="mb-4">
-              <label htmlFor="graphiql-variables-editor">
-                {t("variables")}
-              </label>
+              <div>{t("variables")}</div>
               <CodeEditor
                 language="json"
                 value={variables}

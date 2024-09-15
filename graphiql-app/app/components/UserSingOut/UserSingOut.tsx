@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 import { signOut } from "firebase/auth";
-import { auth } from "~/firebase";
+import { auth } from "../../firebase";
 import PropTypes from "prop-types";
 
 interface UserSingOutProps {
