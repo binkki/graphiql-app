@@ -40,17 +40,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
   useChangeLanguage(locale);
 
   return (
-    <html lang={locale} dir={i18n.dir()}>
+    <html lang={locale} dir={i18n.dir()} className="h-screen">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body className="h-screen scroll-smooth">
+      <body className="flex flex-col min-h-screen scroll-smooth">
         <AuthCheck>
           <Header />
-          {children}
+          <main className="flex-grow">{children}</main>
           <Footer />
         </AuthCheck>
         <ScrollRestoration />
