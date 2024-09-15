@@ -35,7 +35,7 @@
   "wrong-endpoint": "Please enter valid endpoint url",
   "wrong-body-no": "This type of request must not have body",
   "wrong-body-yes": "This type of request must have body",
-  "wrong-body-content": "Please enter valid json body"
+  "wrong-body-content": "Please enter valid json body",
   "show_headers": "Show Headers ↓",
   "hide_headers": "Hide Headers ↑",
   "show_variables": "Show Variables ↓",
