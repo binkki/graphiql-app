@@ -30,7 +30,7 @@
   "method": "Method",
   "choose-method": "Choose method",
   "create-header": "Create header",
-  "format": "Format body",
+  "format": "Format",
   "wrong-method": "Please choose request method",
   "wrong-endpoint": "Please enter valid endpoint url",
   "wrong-body-no": "This type of request must not have body",

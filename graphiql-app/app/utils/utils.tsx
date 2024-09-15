@@ -6,6 +6,7 @@ import {
 } from "~/types";
 import { defaultRestfulErrorsState, linkRegexPattern } from "./constants";
 import { t } from "i18next";
+import { encodeBase64 } from "./encode";
 
 export const isMethodBody = (method: string): boolean => {
   return ["GET", "CONNECT", "OPTIONS", "TRACE", "HEAD"].indexOf(method) === -1;
@@ -34,8 +35,6 @@ export const saveToLocalStorage = (key: string, value: string) => {
     localStorage.setItem(key, JSON.stringify(data));
   }
 };
-
-export const encodeToBase64 = (value: string): string => btoa(value);
 
 export const decodeFromBase64 = (value: string): string => {
   let result = "";
@@ -87,19 +86,19 @@ export const generateRestfulUrl = (request: RestfulRequestProps): string => {
     newUrl = `/${request.method}/`;
   }
   if (request.endpointUrl) {
-    newUrl = `${newUrl}${encodeToBase64(request.endpointUrl)}/`;
+    newUrl = `${newUrl}${encodeBase64(request.endpointUrl)}/`;
   }
   if (request.body) {
-    newUrl = `${newUrl}${encodeToBase64(request.body)}`;
+    newUrl = `${newUrl}${encodeBase64(request.body)}`;
   } else {
     if (request.method || request.endpointUrl || request.headers.length > 0) {
-      newUrl = `${newUrl}${encodeToBase64("{}")}`;
+      newUrl = `${newUrl}${encodeBase64("{}")}`;
     }
   }
   if (request.headers.length > 0 && newUrl) {
     let headerSeparator = "?";
     for (let i = 0; i < request.headers.length; i += 1) {
-      newUrl = `${newUrl}${headerSeparator}${request.headers[i].key}=${encodeToBase64(request.headers[i].value)}`;
+      newUrl = `${newUrl}${headerSeparator}${request.headers[i].key}=${encodeBase64(request.headers[i].value)}`;
       if (headerSeparator === "?") headerSeparator = "&";
     }
   }

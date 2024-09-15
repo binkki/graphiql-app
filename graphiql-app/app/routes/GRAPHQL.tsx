@@ -7,7 +7,7 @@ import {
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import CodeEditor from "~/components/CodeEditor";
+import CodeEditor from "../components/Client/CodeEditor";
 import { auth } from "~/firebase";
 import { buildGraphiQLUrl, decodeBase64 } from "~/utils/encode";
 import showToast from "../utils/toast";

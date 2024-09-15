@@ -25,6 +25,7 @@ export type CodeEditorProps = {
   value: string;
   id: string;
   setRequestBody?: Dispatch<SetStateAction<string>>;
+  onBlur?: () => void;
 };
 
 export type RequestHeader = {
