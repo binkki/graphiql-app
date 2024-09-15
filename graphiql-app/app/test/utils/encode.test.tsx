@@ -1,8 +1,8 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
-  encodeBase64,
-  decodeBase64,
   buildGraphiQLUrl,
+  decodeBase64,
+  encodeBase64,
 } from "../../utils/encode";
 
 describe("encodeBase64", () => {

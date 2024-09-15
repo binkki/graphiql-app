@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import { beforeEach, describe, it, vi, expect, Mock } from "vitest";
-import History from "../../routes/history";
-import { getHistoryFromLocalStorage } from "../../utils/localStorage";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { MemoryRouter } from "react-router-dom";
+import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
+import History from "../../routes/history";
+import { getHistoryFromLocalStorage } from "../../utils/localStorage";
 
 vi.mock("../../utils/localStorage", () => ({
   getHistoryFromLocalStorage: vi.fn(),

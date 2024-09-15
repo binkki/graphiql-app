@@ -3,7 +3,6 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { describe, expect, it, vi } from "vitest";
 import AuthCheck from "../../../components/AuthCheck/AuthCheck";
 
-// Mocking the necessary modules
 vi.mock("firebase/auth", async (importOriginal) => {
   const actual: Record<string, unknown> = await importOriginal();
   return {
