@@ -27,7 +27,7 @@ export default function Index() {
     return () => listen();
   }, []);
 
-  if (!ready) return <div>Loading...</div>;
+  if (!ready) return <div>{t("loading")}</div>;
   return (
     <>
       {authUser ? (

@@ -48,5 +48,17 @@
   "execute": "Выполнить запрос",
   "GraphQLResponse": "Результат запроса GraphiQL",
   "sdlDocs": "SDL Документация",
-  "page-not-found": "Страница не найдена"
+  "page-not-found": "Страница не найдена",
+  "loading": "Загрузка...",
+  "header_history": "История",
+  "error_invalid_email_format": "Неправильный формат email",
+  "error_password_validation": "Пароль должен содержать хотя бы одну букву, одну цифру и один специальный символ",
+  "error_account_not_found": "Извините, ваш аккаунт не найден. Пожалуйста проверьте введенные данные или зарегестрируйтесь",
+  "error_unexpected": "An unexpected error occurred. Please try again.",
+  "email_placeholder": "Почта",
+  "password_placeholder": "Пароль",
+  "email_verified": "Почта верифицирован!",
+  "email_not_verified": "Почта не верифицированна!",
+  "error_registration": "Ошибка регистрации. Пожалуйста попробуйте еще раз",
+  "history_plaseholder": "Вы еще не выполнили ни одного запроса. Для перехода на страницу с клиентом нажмите на одну из ссылок:"
 }

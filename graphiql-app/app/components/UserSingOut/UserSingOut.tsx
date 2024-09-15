@@ -11,9 +11,7 @@ interface UserSingOutProps {
 
 const UserSingOut: React.FC<UserSingOutProps> = ({ src, alt, title }) => {
   function userSingOut() {
-    signOut(auth)
-      .then(() => console.log("sign out"))
-      .catch((error) => console.error("Error signing out:", error));
+    signOut(auth);
   }
   return (
     <>
