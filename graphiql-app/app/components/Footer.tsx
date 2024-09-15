@@ -4,7 +4,7 @@ import rs from "../../public/rss-logo.svg";
 
 export default function Footer() {
   return (
-    <footer className="mt-auto flex h-16 p-4 sticky top-full text-3xl text-white bg-gradient-to-b from-gray-300 to-black">
+    <footer className="mt-auto flex h-16 p-4 sticky top-full text-3xl text-white bg-gradient-to-b from-gray-300 to-blue-500">
       <div className="flex items-center gap-5 w-screen justify-between">
         <div>
           <Link

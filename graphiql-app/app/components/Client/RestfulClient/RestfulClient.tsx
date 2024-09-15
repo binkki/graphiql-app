@@ -20,6 +20,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "@remix-run/react";
 import { saveToLocalStorage } from "~/utils/localStorage";
+import ResponseSection from "../ResponseSection";
 
 export default function RestfulClient(props: RestfulClientProps) {
   const { t } = useTranslation();
@@ -170,21 +171,10 @@ export default function RestfulClient(props: RestfulClientProps) {
       >
         {t("request-send")}
       </button>
-      <div>
-        <span>{t("response")}</span>
-        <div className="flex flex-col justify-start gap-2 py-2.5 px-4 border border-black rounded-lg w-fit hover:cursor-default">
-          <div className="hover:cursor-default">
-            {t("response-status")}:{" "}
-            {restfulResponse.status.length ? restfulResponse.status : "-"}
-          </div>
-          <CodeEditor
-            language="json"
-            readonly={true}
-            value={restfulResponse.body}
-            id="restful-response-editor"
-          />
-        </div>
-      </div>
+      <ResponseSection
+        body={restfulResponse.body}
+        status={restfulResponse.status || "-"}
+      />
     </div>
   );
 }

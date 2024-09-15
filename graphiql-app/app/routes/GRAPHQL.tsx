@@ -152,95 +152,112 @@ export default function Graphiql() {
   return (
     <>
       {authUser ? (
-        <div className="my-8 mx-auto w-10/12 flex flex-col gap-2">
+        <div className="my-8 mx-auto w-10/12 flex flex-col items-center py-2.5 px-4 gap-2">
           <div>
-            <label htmlFor="endpointInput">{t("EndpointURL")}</label>
-            <input
-              type="text"
-              placeholder="Endpoint URL"
-              value={endpoint}
-              id="endpointInput"
-              onChange={(e) => setEndpoint(e.target.value)}
-              className="ml-2 inline-block w-1/2"
-            />
-          </div>
-          <div>
-            <label htmlFor="sdlEndpointUrl">{t("sdlEndpointURL")}</label>
-            <input
-              type="text"
-              placeholder="SDL Endpoint URL"
-              value={sdlEndpoint}
-              id="sdlEndpointUrl"
-              onChange={(e) => setSdlEndpoint(e.target.value)}
-              className="ml-2 inline-block w-1/2"
-            />
-          </div>
-          <button className="inline-block w-64" onClick={toggleHeaders}>
-            {showHeaders.text}
-          </button>
-          {showHeaders.flag && (
-            <div>
-              {headers.map((header, index) => (
-                <div key={index}>
-                  <input
-                    placeholder="Header Key"
-                    type="text"
-                    value={header.key}
-                    onChange={(e) =>
-                      handleHeaderChange(index, e.target.value, header.value)
-                    }
-                  />
-                  <input
-                    type="text"
-                    value={header.value}
-                    placeholder="Header Value"
-                    onChange={(e) =>
-                      handleHeaderChange(index, header.key, e.target.value)
-                    }
+            <span className="block w-fit">{t("request")}</span>
+            <div className="flex flex-col justify-start gap-2 py-2.5 px-4 border border-black  rounded-lg w-fit">
+              <div>
+                <label htmlFor="endpointInput">{t("EndpointURL")}</label>
+                <input
+                  type="text"
+                  placeholder="Endpoint URL"
+                  value={endpoint}
+                  id="endpointInput"
+                  onChange={(e) => setEndpoint(e.target.value)}
+                  className="ml-4 border border-gray-500 rounded-lg text-gray-600 text-base inline-block py-2.5 px-4 w-auto focus:bg-gray-400 focus:text-white focus:outline-none focus:cursor-text hover:cursor-text"
+                />
+              </div>
+              <div>
+                <label htmlFor="sdlEndpointUrl">{t("sdlEndpointURL")}</label>
+                <input
+                  type="text"
+                  placeholder="SDL Endpoint URL"
+                  value={sdlEndpoint}
+                  id="sdlEndpointUrl"
+                  onChange={(e) => setSdlEndpoint(e.target.value)}
+                  className="ml-4 border border-gray-500 rounded-lg text-gray-600 text-base inline-block py-2.5 px-4 w-auto focus:bg-gray-400 focus:text-white focus:outline-none focus:cursor-text hover:cursor-text"
+                />
+              </div>
+              <button
+                className="inline-block bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
+                onClick={toggleHeaders}
+              >
+                {showHeaders.text}
+              </button>
+              {showHeaders.flag && (
+                <div>
+                  {headers.map((header, index) => (
+                    <div key={index}>
+                      <input
+                        placeholder="Header Key"
+                        type="text"
+                        value={header.key}
+                        className="ml-4 border border-gray-500 rounded-lg text-gray-600 text-base inline-block py-2.5 px-4 w-auto focus:bg-gray-400 focus:text-white focus:outline-none focus:cursor-text hover:cursor-text"
+                        onChange={(e) =>
+                          handleHeaderChange(
+                            index,
+                            e.target.value,
+                            header.value,
+                          )
+                        }
+                      />
+                      <input
+                        type="text"
+                        value={header.value}
+                        placeholder="Header Value"
+                        className="ml-4 border border-gray-500 rounded-lg text-gray-600 text-base inline-block py-2.5 px-4 w-auto focus:bg-gray-400 focus:text-white focus:outline-none focus:cursor-text hover:cursor-text"
+                        onChange={(e) =>
+                          handleHeaderChange(index, header.key, e.target.value)
+                        }
+                      />
+                    </div>
+                  ))}
+                  <button
+                    className="mt-4 bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
+                    onClick={addHeader}
+                  >
+                    {t("add_header")}
+                  </button>
+                </div>
+              )}
+
+              <CodeEditor
+                language="graphql"
+                value={query}
+                ref={queryEditorRef}
+                readonly={false}
+                id="graphiql-request-editor"
+                onBlur={changeURLonFocusOut}
+              />
+              <button
+                className="bg-blue-500 rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
+                onClick={toggleVariables}
+              >
+                {showVariables.text}
+              </button>
+              {showVariables.flag && (
+                <div className="mb-4">
+                  <label htmlFor="graphiql-variables-editor">
+                    {t("variables")}
+                  </label>
+                  <CodeEditor
+                    language="json"
+                    value={variables}
+                    readonly={false}
+                    id="graphiql-variables-editor"
+                    ref={variablesEditorRef}
                   />
                 </div>
-              ))}
+              )}
+
               <button
-                className="h-10 px-5 m-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
-                onClick={addHeader}
+                className="bg-blue-700 mx-auto rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
+                onClick={handleExecuteQuery}
               >
-                {t("add_header")}
+                {t("execute")}
               </button>
             </div>
-          )}
-
-          <CodeEditor
-            language="graphql"
-            value={query}
-            ref={queryEditorRef}
-            readonly={false}
-            id="graphiql-request-editor"
-            onBlur={changeURLonFocusOut}
-          />
-          <button className="inline-block w-64" onClick={toggleVariables}>
-            {showVariables.text}
-          </button>
-          {showVariables.flag && (
-            <div className="mb-4">
-              <label htmlFor="graphiql-variables-editor">
-                {t("variables")}
-              </label>
-              <CodeEditor
-                language="json"
-                value={variables}
-                readonly={false}
-                id="graphiql-variables-editor"
-                ref={variablesEditorRef}
-              />
-            </div>
-          )}
-
-          <button
-            className="h-10 px-5 m-2 inline-block w-48 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
-            onClick={handleExecuteQuery}
-          >
-            {t("execute")}
-          </button>
+          </div>
           <Outlet />
         </div>
       ) : (

@@ -138,7 +138,7 @@ const SignUp: React.FC = () => {
           )}
         </div>
         <button
-          className="mt-4 border-solid rounded-3xl bg-gray-500 p-4 bg-gradient-to-tl from-gray-300 via-gray-500 to-black text-center align-self-center"
+          className="mb-6 bg-blue-500 mx-auto rounded-lg text-white text-base h-10 px-4 w-fit hover:bg-blue-600"
           type="button"
           onClick={signUpAction}
         >
