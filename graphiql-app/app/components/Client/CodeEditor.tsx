@@ -1,16 +1,20 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 import loader from "@monaco-editor/loader";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import { CodeEditorProps } from "~/types";
 import { useTranslation } from "react-i18next";
 
-const CodeEditor = (props: CodeEditorProps) => {
+const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const { t } = useTranslation();
 
   const formatInput = () => {
     editorRef.current?.getAction("editor.action.formatDocument")?.run();
   };
+
+  useImperativeHandle(ref, () => ({
+    getValue: () => editorRef.current?.getValue(),
+  }));
 
   useEffect(() => {
     loader.init().then((monaco) => {
@@ -73,6 +77,6 @@ const CodeEditor = (props: CodeEditorProps) => {
       </div>
     </>
   );
-};
+});
 
 export default CodeEditor;
