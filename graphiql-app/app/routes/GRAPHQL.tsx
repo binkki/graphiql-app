@@ -1,4 +1,9 @@
-import { Outlet, useParams, useSearchParams } from "@remix-run/react";
+import {
+  Outlet,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "@remix-run/react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -32,6 +37,17 @@ export default function Graphiql() {
 
   let query = "query {}";
   let variables = "{}";
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        return navigate("/");
+      }
+    });
+    return () => listen();
+  }, []);
 
   try {
     if (decodedBody) {
