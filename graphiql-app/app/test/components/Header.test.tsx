@@ -52,7 +52,7 @@ describe("Header", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByText("Graphiql App")).toBeInTheDocument();
+    expect(screen.getByText("REST/Graphiql App")).toBeInTheDocument();
     expect(screen.getByText("signin")).toBeInTheDocument();
     expect(screen.getByText("signup")).toBeInTheDocument();
   });
@@ -71,7 +71,7 @@ describe("Header", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByText("Graphiql App")).toBeInTheDocument();
+    expect(screen.getByText("REST/Graphiql App")).toBeInTheDocument();
     expect(screen.getByText("Restful Client")).toBeInTheDocument();
     expect(screen.getByText("Graphiql Client")).toBeInTheDocument();
     expect(screen.getByText("History")).toBeInTheDocument();
