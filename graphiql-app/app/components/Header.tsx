@@ -58,7 +58,7 @@ export default function Header() {
           className={`font-bold text-[24px] text-lg text-center self-center transition-colors duration-300 mr-5 ${isScrolled ? "text-white hover:text-[#b4b3b3]" : "text-black hover:text-white"}`}
           to="/"
         >
-          Graphiql App
+          REST/Graphiql App
         </Link>
       </h1>
       <div>
