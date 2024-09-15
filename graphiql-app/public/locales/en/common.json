@@ -63,5 +63,11 @@
   "email_verified": "Email verified!",
   "email_not_verified": "Email not verified!",
   "error_registration": "Registration failed. Please try again.",
-  "history_plaseholder": "You have not executed any requests yet. Follow one of the links:"
+  "history_plaseholder": "You have not executed any requests yet. Follow one of the links:",
+  "Developed_by": "Developed during",
+  "course": "RSS React Course",
+  "by": "by",
+  "Kate": "Katerina Kulevtsova",
+  "Tania": "Tatiana Dzhafarova",
+  "Leonid": "Leanid Matskevich"
 }
