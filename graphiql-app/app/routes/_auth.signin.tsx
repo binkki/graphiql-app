@@ -28,7 +28,7 @@ const SignIn: React.FC = () => {
   const handleEmailChange = (data: string) => {
     setEmail(data);
     if (!validateEmail(data)) {
-      setEmailError("Invalid email format");
+      setEmailError(t("error_invalid_email_format"));
     } else {
       setEmailError(null);
     }
@@ -36,9 +36,7 @@ const SignIn: React.FC = () => {
   const handlePasswordChange = (data: string) => {
     setPassword(data);
     if (!validatePassword(data)) {
-      setPasswordError(
-        "Password must include at least one letter, one digit and one special symbol",
-      );
+      setPasswordError(t("error_password_validation"));
     } else {
       setPasswordError(null);
     }
@@ -54,14 +52,10 @@ const SignIn: React.FC = () => {
       return navigate("/");
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Error when logging into the account:", error.message);
-        setPasswordError(
-          "Sorry, your account was not found. Please check if the data you entered is correct or re-register.",
-        );
+        setPasswordError(t("error_account_not_found"));
         setPassword("");
       } else {
-        console.error("Unexpected error:", error);
-        setPasswordError("An unexpected error occurred. Please try again.");
+        setPasswordError(t("error_unexpected"));
       }
     }
   };
@@ -101,7 +95,7 @@ const SignIn: React.FC = () => {
               Email{" "}
             </label>
             <InputField
-              placeholder={"E-mail Address"}
+              placeholder={t("email_placeholder")}
               handleChange={handleEmailChange}
               type={"email"}
               autoComplete={"email"}
@@ -120,10 +114,10 @@ const SignIn: React.FC = () => {
             {" "}
             <label className="text-2xl" htmlFor="password">
               {" "}
-              Password{" "}
+              {t("password")}{" "}
             </label>
             <InputField
-              placeholder={"Password"}
+              placeholder={t("password_placeholder")}
               handleChange={handlePasswordChange}
               type={"password"}
               autoComplete={"current-password"}
@@ -146,12 +140,11 @@ const SignIn: React.FC = () => {
       {user && (
         <div className="text-sm flex flex-col items-center mt-10">
           {" "}
-          {/* <p>{user?.email}</p> */}{" "}
           <p>
             {" "}
             {user?.emailVerified
-              ? "Email verified!"
-              : "Email not verified!"}{" "}
+              ? t("email_verified")
+              : t("email_not_verified")}{" "}
           </p>{" "}
         </div>
       )}{" "}

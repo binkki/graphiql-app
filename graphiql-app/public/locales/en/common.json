@@ -52,5 +52,16 @@
   "execute": "Execute",
   "GraphQLResponse": "GraphiQL Response",
   "sdlDocs": "SDL Documentation",
-  "page-not-found": "This page isn't found"
+  "page-not-found": "This page isn't found",
+  "loading": "Loading...",
+  "error_invalid_email_format": "Invalid email format",
+  "error_password_validation": "Password must include at least one letter, one digit and one special symbol",
+  "error_account_not_found": "Sorry, your account was not found. Please check if the data you entered is correct or re-register.",
+  "error_unexpected": "An unexpected error occurred. Please try again.",
+  "email_placeholder": "E-mail Address",
+  "password_placeholder": "Password",
+  "email_verified": "Email verified!",
+  "email_not_verified": "Email not verified!",
+  "error_registration": "Registration failed. Please try again.",
+  "history_plaseholder": "You have not executed any requests yet. Follow one of the links:"
 }

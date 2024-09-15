@@ -28,7 +28,7 @@ const SignUp: React.FC = () => {
   const handleEmailChange = (data: string) => {
     setEmail(data);
     if (!validateEmail(data)) {
-      setEmailError("Invalid email format");
+      setEmailError(t("error_invalid_email_format"));
     } else {
       setEmailError(null);
     }
@@ -37,9 +37,7 @@ const SignUp: React.FC = () => {
   const handlePasswordChange = (data: string) => {
     setPassword(data);
     if (!validatePassword(data)) {
-      setPasswordError(
-        "Password must include at least one letter, one digit and one special symbol",
-      );
+      setPasswordError(t("error_password_validation"));
     } else {
       setPasswordError(null);
     }
@@ -57,7 +55,6 @@ const SignUp: React.FC = () => {
       const user = userCred.user;
 
       await sendEmailVerification(user);
-      console.log("Success");
 
       setEmail("");
       setPassword("");
@@ -65,11 +62,9 @@ const SignUp: React.FC = () => {
       return navigate("/");
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Error during registration:", error.message);
-        setPasswordError("Registration failed. Please try again.");
+        setPasswordError(t("error_registration"));
       } else {
-        console.error("Unexpected error:", error);
-        setPasswordError("An unexpected error occurred. Please try again.");
+        setPasswordError(t("error_unexpected"));
       }
     }
   };

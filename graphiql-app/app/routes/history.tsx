@@ -71,7 +71,7 @@ export default function History() {
           ) : (
             <>
               <h2 className="text-center text-2xl font-bold pt-12 mb-5">
-                You have not executed any requests yet. Follow one of the links:
+                {t("history_plaseholder")}
               </h2>
               <div className="flex justify-center mb-[6.25rem]">
                 <ul className="flex items-center justify-between h-24 gap-5">

@@ -47,7 +47,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (!ready) return <div>Loading...</div>;
+  if (!ready) return <div>{t("loading")}</div>;
   return (
     <header
       id="header"
