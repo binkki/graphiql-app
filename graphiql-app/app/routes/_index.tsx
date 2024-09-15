@@ -58,9 +58,9 @@ export default function Index() {
             </ul>
           </div>
           <div className="text-center text-xl font-small mb-5">
-            {t("Developed")}{" "}
+            <span>{t("Developed_by")}</span>{" "}
             <Link to={"https://rs.school/courses/reactjs"}>{t("course")}</Link>{" "}
-            {t("by")}
+            <span>{t("by")}</span>
           </div>
           <div className="flex justify-center mb-[6.25rem] text-xl text-blue-500 gap-10">
             <Link to={"https://github.com/binkki"}>{t("Kate")}</Link>
