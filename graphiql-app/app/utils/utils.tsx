@@ -61,7 +61,10 @@ export const decodeUrlFromBase64 = (value: string): string => {
         })
       : [];
   const endpointUrl = decodeFromBase64(url[4]);
-  const body = decodeFromBase64(bodyUrl[0]);
+  let body = decodeFromBase64(bodyUrl[0]);
+  if (body === "{}") {
+    body = "";
+  }
   const result = {
     method: url[3],
     endpointUrl: endpointUrl,

@@ -36,6 +36,36 @@ export default function RestfulClient(props: RestfulClientProps) {
   const [restfulErrors, setRestfulErrors] = useState<RestfulClientErrors>(
     defaultRestfulErrorsState,
   );
+  const [requestBody, setRequestBody] = useState(
+    props.restfulRequest?.body ?? "",
+  );
+  const [requestUrl, setRequestUrl] = useState(
+    props.restfulRequest?.endpointUrl ?? "",
+  );
+  const [requestMetod, setRequestMetod] = useState(
+    props.restfulRequest?.method ?? "",
+  );
+
+  useEffect(() => {
+    setRestfulRequest({
+      ...restfulRequest,
+      body: requestBody,
+    });
+  }, [requestBody]);
+
+  useEffect(() => {
+    setRestfulRequest({
+      ...restfulRequest,
+      method: requestMetod,
+    });
+  }, [requestMetod]);
+
+  useEffect(() => {
+    setRestfulRequest({
+      ...restfulRequest,
+      endpointUrl: requestUrl,
+    });
+  }, [requestUrl]);
 
   useEffect(() => {
     if (props.restfulRequest) setRestfulRequest(props.restfulRequest);
@@ -45,7 +75,11 @@ export default function RestfulClient(props: RestfulClientProps) {
   const sendRequest = async () => {
     resetErrors();
     const options = generateRequest(restfulRequest);
-    if (options.body === null) {
+    if (
+      options.errors.bodyError ||
+      options.errors.endpointUrlError ||
+      options.errors.methodError
+    ) {
       setRestfulErrors(options.errors);
       return;
     }
@@ -92,8 +126,8 @@ export default function RestfulClient(props: RestfulClientProps) {
           <MethodSelector
             id="restful-method"
             methods={restMethods}
-            setRequest={setRestfulRequest}
-            request={restfulRequest}
+            setMethod={setRequestMetod}
+            defaultValue={restfulRequest.method}
           />
           {restfulErrors.methodError && (
             <div className="text-base text-red-500 w-fit">
@@ -102,8 +136,8 @@ export default function RestfulClient(props: RestfulClientProps) {
           )}
           <EndpointUrl
             id="restful-url"
-            setRequest={setRestfulRequest}
-            request={restfulRequest}
+            setEndpointUrl={setRequestUrl}
+            defaultValue={restfulRequest.endpointUrl}
           />
           {restfulErrors.endpointUrlError && (
             <div className="text-base text-red-500 w-fit">
@@ -122,10 +156,9 @@ export default function RestfulClient(props: RestfulClientProps) {
           <CodeEditor
             language="json"
             readonly={false}
-            value=""
+            value={restfulRequest.body}
             id="restful-request-editor"
-            setRequest={setRestfulRequest}
-            request={restfulRequest}
+            setRequestBody={setRequestBody}
           />
           {restfulErrors.bodyError && (
             <div className="text-base text-red-500 w-fit">

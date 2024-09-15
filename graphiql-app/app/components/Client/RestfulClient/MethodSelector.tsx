@@ -1,32 +1,28 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ClientProps, FormField } from "~/types";
+import { FormField, RestfulMethodProps } from "~/types";
 
-const MethodSelector = (props: ClientProps) => {
+const MethodSelector = (props: RestfulMethodProps) => {
   const { register, handleSubmit } = useForm<FormField>();
   const { t } = useTranslation();
 
   const [defaultMethod, setDefaultMethod] = useState("DEFAULT");
 
   const changeMethod: SubmitHandler<FormField> = async (data) => {
-    props.setRequest({
-      ...props.request,
-      method: data.value === "DEFAULT" ? "" : data.value,
-    });
+    props.setMethod(data.value === "DEFAULT" ? "" : data.value);
   };
 
   useEffect(() => {
-    if (props.request.method === "") {
+    if (props.defaultValue === "") {
       setDefaultMethod("DEFAULT");
     } else if (
-      props.request.method &&
-      props.methods &&
-      props.methods.indexOf(props.request.method) !== -1
+      props.defaultValue &&
+      props.methods.indexOf(props.defaultValue) !== -1
     ) {
-      setDefaultMethod(props.request.method);
+      setDefaultMethod(props.defaultValue);
     }
-  }, [props.request.method]);
+  }, [props.defaultValue]);
 
   return (
     <form

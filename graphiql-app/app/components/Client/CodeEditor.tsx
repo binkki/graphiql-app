@@ -38,7 +38,7 @@ const CodeEditor = (props: CodeEditorProps) => {
         }, 1);
         if (monacoEditor) editorRef.current = monacoEditor;
         monacoEditor.onDidBlurEditorWidget(() => {
-          if (props.setRequestBody)
+          if (props.setRequestBody && !props.readonly)
             props.setRequestBody(monacoEditor.getValue());
         });
       } else {

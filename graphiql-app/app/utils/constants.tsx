@@ -19,21 +19,6 @@ export const defaultHeaders = [
   },
 ];
 
-export const defaultHeaders1 = [
-  {
-    key: "Content-Type",
-    value: "application/json",
-  },
-  {
-    key: "access-control-allow-origin",
-    value: "*",
-  },
-  {
-    key: "Access-Control-Allow-Methods",
-    value: restMethods.join(","),
-  },
-];
-
 export const defaultRestfulErrorsState = {
   methodError: "",
   endpointUrlError: "",

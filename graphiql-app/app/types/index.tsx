@@ -4,11 +4,28 @@ export interface ClientProps {
   id: string;
   request: RestfulRequestProps;
   setRequest: Dispatch<SetStateAction<RestfulRequestProps>>;
-  methods?: string[];
-  language?: string;
-  readonly?: boolean;
-  value?: string;
 }
+
+export type RestfulMethodProps = {
+  id: string;
+  methods: string[];
+  setMethod: Dispatch<SetStateAction<string>>;
+  defaultValue: string;
+};
+
+export type RestfulEndpointProps = {
+  id: string;
+  setEndpointUrl: Dispatch<SetStateAction<string>>;
+  defaultValue: string;
+};
+
+export type CodeEditorProps = {
+  language: string;
+  readonly: boolean;
+  value: string;
+  id: string;
+  setRequestBody?: Dispatch<SetStateAction<string>>;
+};
 
 export type RequestHeader = {
   key: string;
