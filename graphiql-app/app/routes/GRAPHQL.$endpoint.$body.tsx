@@ -52,7 +52,9 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
     return json({ jsonResponse, sdlDocs, locale });
   } catch (err) {
-    return json({ err, locale });
+    if (err instanceof Error) {
+      return json({ err: { message: err.message }, locale });
+    }
   }
 };
 

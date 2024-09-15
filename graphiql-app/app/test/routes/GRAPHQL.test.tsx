@@ -155,4 +155,28 @@ describe("GRAPHQL", () => {
 
     expect(endpointInput.value).toBe("https://rickandmortyapi.com/graphql");
   });
+
+  it("changes the URL on focus out of query editor", async () => {
+    vi.mocked(onAuthStateChanged).mockImplementation((auth, callback) => {
+      if (typeof callback === "function") {
+        callback(mockUser);
+      }
+      return () => {};
+    });
+
+    render(
+      <MemoryRouter>
+        <Graphiql />
+      </MemoryRouter>,
+    );
+
+    const endpointInput: HTMLInputElement =
+      screen.getByLabelText("EndpointURL");
+    endpointInput.value = "http://localhost:3000/";
+    endpointInput.blur();
+
+    await waitFor(() => {
+      expect(window.location.href).toContain("http://localhost:3000/");
+    });
+  });
 });
