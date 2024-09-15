@@ -32,7 +32,6 @@ export default defineConfig({
         "build",
         "eslint",
         "prettier",
-        "app/cookie.ts",
         "app/entry.client.tsx",
         "app/entry.server.tsx",
         "app/firebase.ts",
